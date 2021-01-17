@@ -54,7 +54,7 @@ public class Population {
 	}
 	public void tournement(Individu ind1,Individu ind2)
 	{
-
+		//System.out.println("rania");
 		Individu au=new Individu(ind1.size);
 		
 	 	//System.out.println("size=" +this.sizep);

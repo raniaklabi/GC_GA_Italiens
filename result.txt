@@ -143,3 +143,5 @@ fileCMLP_17.datTalpha15.0 L=15.0000000104832execution time: 995.1709999999999 se
 fileCMLP_18.datTalpha11.0 L=31.778799599811464execution time: 8408.123 secondenumber CS=3579.0
 fileCMLP_18.datTalpha13.0 L=26.95291257968743execution time: 7736.1978 secondenumber CS=3351.6
 fileCMLP_05.datTalpha21.0 L=8.944288695315299execution time: 1624.5812 secondenumber CS=1187.0
+fileCMLP_05.datTalpha26.0 L=7.388406183362531execution time: 1140.6128 secondenumber CS=915.4
+fileCMLP_05.datTalpha30.0 L=5.000000002454908execution time: 393.817 secondenumber CS=393.6
