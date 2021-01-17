@@ -1,0 +1,145 @@
+fileCMLP_01.datTalpha11.0 L=8.691059514065273execution time: 620 seconde
+fileCMLP_01.datTalpha13.0 L=7.437645855228766execution time: 877 seconde
+fileCMLP_01.datTalpha15.0 L=4.483166150768739execution time: 934 seconde
+fileCMLP_02.datTalpha11.0 L=8.16867513145553execution time: 620 seconde
+fileCMLP_02.datTalpha13.0 L=6.589453831024002execution time: 487 seconde
+fileCMLP_02.datTalpha15.0 L=3.557221392980864execution time: 658 seconde
+fileCMLP_03.datTalpha11.0 L=8.000000051455572execution time: 150 seconde
+fileCMLP_03.datTalpha13.0 L=6.196457821759395execution time: 377 seconde
+fileCMLP_03.datTalpha15.0 L=3.0000000159197953execution time: 86 seconde
+fileCMLP_04.datTalpha11.0 L=7.968045951362001execution time: 515 seconde
+fileCMLP_04.datTalpha13.0 L=6.747610760299722execution time: 436 seconde
+fileCMLP_04.datTalpha15.0 L=3.9999999764258973execution time: 548 seconde
+fileCMLP_09.datTalpha11.0 L=21.00547732898849execution time: 2108 seconde
+fileCMLP_09.datTalpha13.0 L=15.480149525392335execution time: 2604 seconde
+fileCMLP_09.datTalpha15.0 L=8.000000002756565execution time: 2648 seconde
+fileCMLP_10.datTalpha11.0 L=19.59943236840263execution time: 2066 seconde
+fileCMLP_10.datTalpha13.0 L=15.709482294252666execution time: 2867 seconde
+fileCMLP_10.datTalpha15.0 L=10.06445117142357execution time: 7562 seconde
+fileCMLP_11.datTalpha11.0 L=19.89552145038033execution time: 2089 seconde
+fileCMLP_11.datTalpha13.0 L=16.157153098796698execution time: 2473 seconde
+fileCMLP_11.datTalpha15.0 L=8.99999999103602execution time: 6409 seconde
+fileCMLP_12.datTalpha11.0 L=21.763016154698562execution time: 1785 seconde
+fileCMLP_12.datTalpha13.0 L=17.54384563775966execution time: 1424 seconde
+fileCMLP_12.datTalpha15.0 L=10.301222447496912execution time: 6121 seconde
+fileCMLP_17.datTalpha11.0 L=29.666356873753102execution time: 5476 seconde
+fileCMLP_17.datTalpha13.0 L=23.67992773129845execution time: 6775 seconde
+fileCMLP_17.datTalpha15.0 L=14.044607894284127execution time: 18348 seconde
+fileCMLP_18.datTalpha11.0 L=29.803032444922792execution time: 14029 seconde
+fileCMLP_18.datTalpha13.0 L=24.68490163854176execution time: 8122 seconde
+fileCMLP_19.datTalpha11.0 L=31.43202650135936execution time: 7638 seconde
+fileCMLP_19.datTalpha13.0 L=24.93087218256005execution time: 6943 seconde
+fileCMLP_19.datTalpha15.0 L=11.999999970088538execution time: 9540 seconde
+fileCMLP_20.datTalpha11.0 L=29.9832231114342execution time: 5557 seconde
+fileCMLP_20.datTalpha13.0 L=24.294180537061038execution time: 5444 seconde
+fileCMLP_20.datTalpha15.0 L=14.940056115249263execution time: 18652 seconde
+fileCMLP_25.datTalpha11.0 L=42.287842763402296execution time: 14619 seconde
+fileCMLP_25.datTalpha13.0 L=34.327589773275804execution time: 17939 seconde
+fileCMLP_26.datTalpha11.0 L=41.11769038107195execution time: 30620 seconde
+fileCMLP_01.datTalpha11.0 L=8.452617711038329execution time: 351 seconde
+fileCMLP_01.datTalpha13.0 L=7.172079623065656execution time: 399 seconde
+fileCMLP_01.datTalpha15.0 L=4.21621962437348execution time: 671 seconde
+fileCMLP_02.datTalpha11.0 L=7.976533666340401execution time: 421 seconde
+fileCMLP_02.datTalpha13.0 L=6.440387847600505execution time: 449 seconde
+fileCMLP_02.datTalpha15.0 L=3.591533992363111execution time: 905 seconde
+fileCMLP_05.datTalpha21.0 L=8.43274844410189execution time: 667 seconde
+fileCMLP_05.datTalpha26.0 L=6.832019467488863execution time: 787 seconde
+fileCMLP_01.datTalpha11.0 L=9.124499150604242execution time: 42.7652 secondenumber CS=960.0
+fileCMLP_01.datTalpha11.0 L=9.264388150791637execution time: 61.899800000000006 secondenumber CS=1183.8
+fileCMLP_01.datTalpha11.0 L=9.191430801409297execution time: 66 seconde
+fileCMLP_01.datTalpha15.0 L=5.000000005660695execution time: 5 seconde
+fileCMLP_01.datTalpha15.0 L=4.999999970314093execution time: 4 seconde
+fileCMLP_02.datTalpha15.0 L=3.9999999969732016execution time: 3 seconde
+fileCMLP_03.datTalpha15.0 L=2.999999987776391execution time: 2 seconde
+fileCMLP_04.datTalpha15.0 L=3.9999999944120646execution time: 2 seconde
+fileCMLP_09.datTalpha15.0 L=8.000000024519977execution time: 9 seconde
+fileCMLP_01.datTalpha11.0 L=9.18927186553483execution time: 54.653800000000004 secondenumber CS=1141.0
+fileCMLP_01.datTalpha13.0 L=8.000000002257002execution time: 32.3372 secondenumber CS=819.6
+fileCMLP_01.datTalpha15.0 L=4.999999983306043execution time: 4.1714 secondenumber CS=214.6
+fileCMLP_02.datTalpha11.0 L=8.538339369865572execution time: 29.044 secondenumber CS=767.6
+fileCMLP_02.datTalpha13.0 L=7.254016540641897execution time: 39.5142 secondenumber CS=926.8
+fileCMLP_02.datTalpha15.0 L=3.9999999978463165execution time: 2.3516 secondenumber CS=163.6
+fileCMLP_03.datTalpha11.0 L=8.903836474854325execution time: 20.5732 secondenumber CS=636.0
+fileCMLP_03.datTalpha13.0 L=7.000000002107117execution time: 13.0696 secondenumber CS=455.4
+fileCMLP_03.datTalpha15.0 L=2.999999996018596execution time: 1.4182000000000001 secondenumber CS=138.4
+fileCMLP_04.datTalpha11.0 L=8.96853781073587execution time: 48.386399999999995 secondenumber CS=1088.8
+fileCMLP_04.datTalpha13.0 L=7.500000036458369execution time: 30.376799999999996 secondenumber CS=792.8
+fileCMLP_04.datTalpha15.0 L=4.000000002863817execution time: 2.044 secondenumber CS=158.0
+fileCMLP_01.datTalpha11.0 L=8.998688423055864execution time: 32.9066 secondenumber CS=981.8
+fileCMLP_01.datTalpha13.0 L=7.999999988403578execution time: 28.761200000000002 secondenumber CS=870.8
+fileCMLP_01.datTalpha15.0 L=4.999999979522545execution time: 3.3106 secondenumber CS=224.0
+fileCMLP_02.datTalpha11.0 L=7.999999993142046execution time: 14.794599999999999 secondenumber CS=576.0
+fileCMLP_02.datTalpha13.0 L=7.178070396711701execution time: 27.374599999999997 secondenumber CS=867.6
+fileCMLP_02.datTalpha15.0 L=3.9999999921419658execution time: 1.6614 secondenumber CS=163.2
+fileCMLP_03.datTalpha11.0 L=6.999999981597102execution time: 3.5716 secondenumber CS=267.2
+fileCMLP_03.datTalpha13.0 L=6.500000006239861execution time: 4.973 secondenumber CS=314.2
+fileCMLP_03.datTalpha15.0 L=3.0000000313855706execution time: 0.9480000000000001 secondenumber CS=132.4
+fileCMLP_04.datTalpha11.0 L=8.829982908719103execution time: 19.291 secondenumber CS=760.4
+fileCMLP_04.datTalpha13.0 L=7.500000004222966execution time: 27.8728 secondenumber CS=849.8
+fileCMLP_04.datTalpha15.0 L=3.9999999843770637execution time: 1.7132 secondenumber CS=165.4
+fileCMLP_05.datTalpha21.0 L=8.544746768649201execution time: 34.7156 secondenumber CS=965.8
+fileCMLP_05.datTalpha26.0 L=7.135057179300929execution time: 53.5024 secondenumber CS=1195.6
+fileCMLP_05.datTalpha30.0 L=5.000000006282425execution time: 13.7818 secondenumber CS=452.0
+fileCMLP_06.datTalpha21.0 L=8.000000020919833execution time: 15.521 secondenumber CS=579.0
+fileCMLP_06.datTalpha26.0 L=6.857424873329execution time: 34.322 secondenumber CS=905.4
+fileCMLP_06.datTalpha30.0 L=3.999999998376006execution time: 3.3804000000000003 secondenumber CS=202.8
+fileCMLP_07.datTalpha21.0 L=6.999999999254942execution time: 6.9838 secondenumber CS=351.0
+fileCMLP_07.datTalpha26.0 L=3.7999999959632986execution time: 2.3696 secondenumber CS=180.4
+fileCMLP_07.datTalpha30.0 L=2.000000022351742execution time: 0.7388 secondenumber CS=115.8
+fileCMLP_08.datTalpha21.0 L=7.599999973492231execution time: 8.4268 secondenumber CS=398.8
+fileCMLP_08.datTalpha26.0 L=7.189934229716892execution time: 38.1502 secondenumber CS=1013.2
+fileCMLP_08.datTalpha30.0 L=4.000000008539064execution time: 2.5964 secondenumber CS=189.4
+fileCMLP_01.datTalpha11.0 L=6.323398205458943execution time: 488.3148 secondenumber CS=1133.0
+fileCMLP_01.datTalpha13.0 L=5.384765469138893execution time: 536.6264 secondenumber CS=1131.8
+fileCMLP_01.datTalpha11.0 L=8.999999971754004execution time: 13.700800000000001 secondenumber CS=483.4
+fileCMLP_01.datTalpha13.0 L=8.00000000212458execution time: 16.061 secondenumber CS=537.4
+fileCMLP_01.datTalpha15.0 L=5.000000001117587execution time: 3.6113999999999997 secondenumber CS=197.0
+fileCMLP_02.datTalpha11.0 L=7.999999988180207execution time: 7.300400000000001 secondenumber CS=293.0
+fileCMLP_02.datTalpha13.0 L=7.459029936039587execution time: 45.1704 secondenumber CS=1193.2
+fileCMLP_02.datTalpha15.0 L=4.00000001952576execution time: 2.277 secondenumber CS=155.4
+fileCMLP_03.datTalpha11.0 L=6.999999992968514execution time: 3.432 secondenumber CS=188.8
+fileCMLP_03.datTalpha13.0 L=6.500000011257361execution time: 4.5968 secondenumber CS=233.2
+fileCMLP_03.datTalpha15.0 L=3.0000000128056854execution time: 1.3332000000000002 secondenumber CS=130.8
+fileCMLP_04.datTalpha11.0 L=8.994264371450118execution time: 20.195 secondenumber CS=693.4
+fileCMLP_04.datTalpha13.0 L=7.500000006312621execution time: 15.046600000000002 secondenumber CS=530.2
+fileCMLP_04.datTalpha15.0 L=3.9999999934225343execution time: 2.1042 secondenumber CS=156.4
+fileCMLP_09.datTalpha11.0 L=23.501631327054202execution time: 136.1366 secondenumber CS=1523.4
+fileCMLP_09.datTalpha13.0 L=18.984533900977112execution time: 168.018 secondenumber CS=1750.4
+fileCMLP_09.datTalpha15.0 L=8.000000005954643execution time: 8.660599999999999 secondenumber CS=217.2
+fileCMLP_10.datTalpha11.0 L=20.00000000876171execution time: 56.340999999999994 secondenumber CS=742.4
+fileCMLP_10.datTalpha13.0 L=18.280550467614194execution time: 192.3942 secondenumber CS=1867.8
+fileCMLP_10.datTalpha15.0 L=12.000000007188465execution time: 31.3736 secondenumber CS=487.0
+fileCMLP_11.datTalpha11.0 L=22.388091436910326execution time: 159.2232 secondenumber CS=1647.6
+fileCMLP_11.datTalpha13.0 L=18.458897990602416execution time: 172.2406 secondenumber CS=1707.6
+fileCMLP_11.datTalpha15.0 L=9.00000000197906execution time: 15.0846 secondenumber CS=295.4
+fileCMLP_01.datTalpha11.0 L=8.99584622153743execution time: 435.9902 secondenumber CS=615.8
+fileCMLP_01.datTalpha13.0 L=7.970362601218222execution time: 633.9536 secondenumber CS=822.2
+fileCMLP_01.datTalpha15.0 L=4.999999997223495execution time: 86.15259999999999 secondenumber CS=202.6
+fileCMLP_02.datTalpha11.0 L=8.000000013259704execution time: 261.62440000000004 secondenumber CS=390.8
+fileCMLP_02.datTalpha13.0 L=7.223396823689109execution time: 549.022 secondenumber CS=737.6
+fileCMLP_02.datTalpha15.0 L=4.000000027625356execution time: 57.24640000000001 secondenumber CS=164.4
+fileCMLP_03.datTalpha11.0 L=7.00000000433065execution time: 130.01420000000002 secondenumber CS=243.4
+fileCMLP_03.datTalpha13.0 L=6.499999992531957execution time: 174.255 secondenumber CS=309.0
+fileCMLP_03.datTalpha15.0 L=3.0000000379048286execution time: 28.53 secondenumber CS=135.4
+fileCMLP_04.datTalpha11.0 L=8.476848308082662execution time: 622.3492 secondenumber CS=864.8
+fileCMLP_04.datTalpha13.0 L=7.473937015442061execution time: 559.4554 secondenumber CS=785.8
+fileCMLP_04.datTalpha15.0 L=4.000000000093133execution time: 63.1648 secondenumber CS=171.8
+fileCMLP_09.datTalpha11.0 L=22.677470100212666execution time: 2071.7516 secondenumber CS=1600.0
+fileCMLP_09.datTalpha13.0 L=18.295113714463877execution time: 1946.4146 secondenumber CS=1535.6
+fileCMLP_09.datTalpha15.0 L=8.00000000401742execution time: 184.974 secondenumber CS=239.4
+fileCMLP_10.datTalpha11.0 L=19.999999986246983execution time: 1352.085 secondenumber CS=944.8
+fileCMLP_10.datTalpha13.0 L=17.801979695583576execution time: 2111.3118 secondenumber CS=1557.0
+fileCMLP_10.datTalpha15.0 L=11.999999969812052execution time: 649.0528 secondenumber CS=562.6
+fileCMLP_11.datTalpha11.0 L=21.75347984499431execution time: 2495.382 secondenumber CS=1738.6
+fileCMLP_11.datTalpha11.0 L=21.687410057202214execution time: 2367.6484 secondenumber CS=1666.4
+fileCMLP_11.datTalpha13.0 L=18.006936052658055execution time: 2244.3126 secondenumber CS=1640.0
+fileCMLP_11.datTalpha15.0 L=9.000000019891013execution time: 301.5866 secondenumber CS=314.2
+fileCMLP_12.datTalpha11.0 L=23.664911911130183execution time: 2270.6333999999997 secondenumber CS=1641.6
+fileCMLP_12.datTalpha13.0 L=20.086790199446842execution time: 2053.9484 secondenumber CS=1529.2
+fileCMLP_12.datTalpha15.0 L=15.000000017477078execution time: 1821.0067999999999 secondenumber CS=1403.6
+fileCMLP_17.datTalpha11.0 L=32.82379417916038execution time: 7792.9518 secondenumber CS=3093.0
+fileCMLP_17.datTalpha13.0 L=26.834644801486537execution time: 7336.8742 secondenumber CS=3516.4
+fileCMLP_17.datTalpha15.0 L=15.0000000104832execution time: 995.1709999999999 secondenumber CS=579.8
+fileCMLP_18.datTalpha11.0 L=31.778799599811464execution time: 8408.123 secondenumber CS=3579.0
+fileCMLP_18.datTalpha13.0 L=26.95291257968743execution time: 7736.1978 secondenumber CS=3351.6
+fileCMLP_05.datTalpha21.0 L=8.944288695315299execution time: 1624.5812 secondenumber CS=1187.0
