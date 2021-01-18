@@ -54,7 +54,7 @@ public class Population {
 	}
 	public void tournement(Individu ind1,Individu ind2)
 	{
-		//System.out.println("rania");
+		
 		Individu au=new Individu(ind1.size);
 		
 	 	//System.out.println("size=" +this.sizep);
@@ -99,13 +99,15 @@ public class Population {
 			int redundancy=0;
 			
 			while((exist==true)&&(redundancy<maxInitDup)) {
+			//while(redundancy<maxInitDup) {
+
 			//while((exist==true)) {
 
 				Individu  ind=new Individu(n);
 
 			List<Edge> subEdges = new ArrayList<>();
 			ind=coverFeasibilityOperator(ind, n, m, Talpha, delta,pi);
-			ind=connectFeasibiltyOperator(ind,n, m, graph, SPL, pi,edges,subEdges,link);
+			ind=connectFeasibiltyOperatorImprovement(ind,n, m, graph, SPL, pi,edges,subEdges,link);
 			ind=redundancyRemovalOperator(ind,edges,n,m,subEdges,delta,Talpha,pi,link);
 
 			//ind=redundancyRemovalOperator(ind,undirectededges,n,m,subEdges,delta,Talpha,pi);
@@ -123,10 +125,11 @@ public class Population {
 			}
 			else {
 				redundancy++;
-				//System.out.print("\nStop with "+redundancy);
-				//int ag2=sc.nextInt();
+			
 			}
 			}
+			
+			
 			if(redundancy>=maxInitDup) {
 				sizep=i;
 				break;
@@ -312,7 +315,6 @@ public class Population {
 		int ag2=sc.nextInt();
 		notUsedBasic.remove(s);
 		System.out.println("\notusedbasic "+notUsedBasic);
-		System.out.println("s= "+s+"  "+notUsedBasic.get(s) );
 		ag2=sc.nextInt();
 		/*System.out.println("SPL ");
 		for(int i=0;i<n;i++)
@@ -355,16 +357,16 @@ public class Population {
 		    	// System.out.println(subEdges.get(i).src+"->"+subEdges.get(i).dest);
 		     }
 			 //List<String> result = graph.shortestPath(Integer.toString(s1), Integer.toString(s2));
-			//System.out.println("result "+result);
-			//ag2=sc.nextInt();
+			System.out.println("result "+result);
+			ag2=sc.nextInt();
 			 
 			// System.out.println("result "+listOfInteger);
 			connectiveInd=union2sets(result,connectiveInd);
 			
 			
 			notUsedBasic=Difference2sets(notUsedBasic,result); 
-			// System.out.println("notusedbased "+notUsedBasic);
-			
+			 System.out.println("notusedbased after"+notUsedBasic);
+			 ag2=sc.nextInt();
 		}
 		for(int i=0;i<connectiveInd.size();i++) {
 			ind.C[connectiveInd.get(i)]=1;

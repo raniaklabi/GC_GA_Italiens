@@ -22,16 +22,18 @@ public class HCG {
 		/*P1.Read_Data_neighbour("Exp20_15_1_Neighbour.txt");
 		P1.link();
 		P1.Print_Data_NosInstance();*/
-		//P1.Read_Data_Francais(args[0]);
-		//double TAalpha=Double.parseDouble(args[1]);
-		// System.out.println(TAalpha);
-		//
-		P1.Read_Data_Francais("CMLP_07.dat");
+		P1.Read_Data_Francais(args[0]);
+		double TAalpha=Double.parseDouble(args[1]);
+		 System.out.println(TAalpha);
+		//int  ag2=sc.nextInt();
+		//P1.Read_Data_Francais("CMLP_03.dat");
 		P1.link();
 		P1.Print_Data_Francais();
-		//int  ag2=sc.nextInt();
     	//double pi[]= {0,0,0,0,0,0,0,0,0,0};
-		
+		double averageTime=0;
+		double averageLifetime=0;
+		double averageCS=0;
+		for(int lll=0;lll<5;lll++) {
 			double r=1;
 			double bestLifetime;
 			double [][]SPL=new double[100][100];
@@ -78,7 +80,7 @@ public class HCG {
 			
     	InitialCoverSetsHeuristic coverSets=new InitialCoverSetsHeuristic();
     	Graph graph=null;
-    	coverSets.calculeCoverSets(P1.TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edges,P1.link);
+    	coverSets.calculeCoverSets(TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edges,P1.link);
     	coverSets.pop.calculeFitnessPopulation(initialPI);
     	/*System.out.println("\nThe population contains: ");
     	for(int i=0;i<coverSets.pop.sizep;i++) {
@@ -126,7 +128,7 @@ public class HCG {
 	    			//int ag2=sc.nextInt();
 				 sph=new subProblemGA();
 				
-				 r=sph.chromosome(P1.N, P1.M, P1.delta,P1.TAalpha,edges,mb.pi,SPL,graph,edgesUndirected,P1.link);
+				 r=sph.chromosome(P1.N, P1.M, P1.delta,TAalpha,edges,mb.pi,SPL,graph,edgesUndirected,P1.link);
 				 
 				 coverSets.K=coverSets.K+1;
     			System.out.println("new cover set: "+ sph.cover);
@@ -181,11 +183,17 @@ public class HCG {
 				// ag2=sc.nextInt();	
     	}
 			 elapsedTime = (new Date()).getTime() - startTime;
-			/* pw.append("file"+args[0]+"Talpha"+P1.TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
-			 pw.newLine();	
-			 pw.close();*/
+			 averageTime=averageTime+elapsedTime;
+			 averageLifetime=averageLifetime+bestLifetime;
+			 averageCS=averageCS+coverSets.K;
+		}	 
+			 
+				
+			 	pw.append("file"+args[0]+"Talpha"+TAalpha+" L="+(averageLifetime/5)+"execution time: "+(averageTime/1000)/5+" seconde"+"number CS="+averageCS/5);
+				pw.newLine();	
+				pw.close();
 
-		    	System.out.println("End!!!!!!!! with best lifetime"+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
+		    	System.out.println("End!!!!!!!! with best lifetime"+(averageLifetime/5)+"execution time: "+(averageTime/1000)/5+" seconde"+"number CS="+averageCS/5);
     
 	}
 	

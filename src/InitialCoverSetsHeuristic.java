@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class InitialCoverSetsHeuristic {
-	public int K=10;
+	public int K=3;
 	int MaxIT=100;
 	int maxInitDup=100;
 	int maxDup=100;
