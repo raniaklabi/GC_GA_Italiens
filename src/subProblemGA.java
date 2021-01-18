@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 public class subProblemGA {
 	Scanner sc= new Scanner(System.in);
 	int sizep=100;
-	int MaxIT=2000;
+	int MaxIT=20;
 	int maxInitDup=100;
 	int maxDup=100;
 	List<Integer> cover;
@@ -87,7 +87,7 @@ public class subProblemGA {
 			//
     		List<Edge> subEdges = new ArrayList<>();
     		C=pop.coverFeasibilityOperator(C, n, m, Talpha, delta,pi);
-    		C=pop.connectFeasibiltyOperatorImprovement(C, n, m, graph, SPL, pi,edges,subEdges,link);
+    		C=pop.connectFeasibiltyOperator(C, n, m, graph, SPL, pi,edges,subEdges,link);
     		C=pop.redundancyRemovalOperator(C,edges,n,m,subEdges,delta,Talpha,pi,link);
     		C.CalculeFitness(pi);
     		/*System.out.print("\n*********cover during iteration: ");
