@@ -160,3 +160,6 @@ fileCMLP_13.datTalpha30.0 L=8.000000000204091execution time: 387.474 secondenumb
 fileCMLP_14.datTalpha21.0 L=20.000000001971785execution time: 1485.049 secondenumber CS=842.8
 fileCMLP_14.datTalpha26.0 L=17.298548450812813execution time: 3097.554 secondenumber CS=1803.2
 fileCMLP_14.datTalpha30.0 L=6.999999980897701execution time: 379.3504 secondenumber CS=304.2
+fileCMLP_15.datTalpha21.0 L=21.711100104328942execution time: 3828.0312 secondenumber CS=1646.6
+fileCMLP_15.datTalpha26.0 L=17.095790301419765execution time: 3540.1674 secondenumber CS=1797.0
+fileCMLP_15.datTalpha30.0 L=8.999999985500471execution time: 537.889 secondenumber CS=405.6
