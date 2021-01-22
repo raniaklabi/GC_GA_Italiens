@@ -24,7 +24,7 @@ public class donnee {
 	double cordSensors[][] = new double[NC][2];
 	double cordTargets[][] = new double[NC][2];
 	protected double alpha=1;
-	protected double TAalpha=30;
+	protected double TAalpha=15;
 	protected double betha=alpha;
 	double Distance[][] = new double[NC][NT];
 	int Voisin[][] = new int[NC][NC];

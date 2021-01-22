@@ -52,13 +52,67 @@ public class Population {
     	return au;
  
 	}
-	public void tournement(Individu ind1,Individu ind2)
+	public void tournement1(Individu ind1,Individu ind2)
 	{
 		
 		Individu au=new Individu(ind1.size);
 		
 	 	//System.out.println("size=" +this.sizep);
+		Random random = new Random();
+		int s1=0;int s2=0;
+		while(s1==s2) {
+			s1=random.nextInt(this.sizep);
+			s2=random.nextInt(this.sizep);
+		}
 
+		int chosenInd1=0;
+		if(this.p.get(s1).fitness<this.p.get(s2).fitness) {
+			chosenInd1=s1;
+			
+		
+    	for(int j=0;j<this.p.get(s1).size;j++) {
+			ind1.C[j]=this.p.get(s1).C[j];
+		}
+    	ind1.fitness=this.p.get(s1).fitness;
+		}
+		else {
+			
+			chosenInd1=s2;
+			for(int j=0;j<this.p.get(s2).size;j++) {
+				ind1.C[j]=this.p.get(s2).C[j];
+			}
+	    	ind1.fitness=this.p.get(s2).fitness;
+		}
+
+	while((s1==s2)||(chosenInd1==s1)||(chosenInd1==s2)) {
+			s1=random.nextInt(this.sizep);
+			s2=random.nextInt(this.sizep);
+		}
+
+		if(this.p.get(s1).fitness<this.p.get(s2).fitness) {
+			
+    	for(int j=0;j<this.p.get(s1).size;j++) {
+			ind2.C[j]=this.p.get(s1).C[j];
+		}
+    	ind2.fitness=this.p.get(s1).fitness;
+		}
+		else {
+			
+			for(int j=0;j<this.p.get(s2).size;j++) {
+				ind2.C[j]=this.p.get(s2).C[j];
+			}
+	    	ind2.fitness=this.p.get(s2).fitness;
+		}
+ 
+	}
+	public void tournement(Individu ind1,Individu ind2)
+	{
+
+	 	//System.out.println("size=" +this.sizep);
+	 	
+	 	//int ag2=sc.nextInt();
+		Individu au=new Individu(ind1.size);
+		
     	for(int i=0;i<this.sizep-1;i++)
     	{
     		for(int j=i+1;j<this.sizep;j++)
@@ -78,6 +132,7 @@ public class Population {
     //	ind2=this.p.get(1);
     
 		//System.out.println("**************");
+    
     	for(int j=0;j<this.p.get(0).size;j++) {
 			ind1.C[j]=this.p.get(0).C[j];
 		}
@@ -86,14 +141,12 @@ public class Population {
 			ind2.C[j]=this.p.get(1).C[j];
 		}
     	ind2.fitness=this.p.get(1).fitness;
-	
-		
+ 
 	}
 	public void InitializePopulation(double Talpha,int n,int m,Graph graph,double [][]SPL,double []pi,int [][]delta,List<Edge> edges, List<Edge> undirectededges,int [][]link) {
 		
 		int i=0;
-		//System.out.println("\nsize p="+sizep);
-
+		
 		while(i<sizep) {
 			boolean exist=true;
 			int redundancy=0;
@@ -118,6 +171,7 @@ public class Population {
 			}*/
 			//int ag2=sc.nextInt();
 			exist=existCover(ind,i);
+			//System.out.println(exist);
 			if(exist==false) {
 				p.add(i, ind);
 				i++;
@@ -127,6 +181,58 @@ public class Population {
 				redundancy++;
 			
 			}
+			
+			}
+			
+			
+			if(redundancy>=maxInitDup) {
+				sizep=i;
+				break;
+			}
+	
+		}
+		
+		
+	}
+public void InitializePopulation1(double Talpha,int n,int m,Graph graph,double [][]SPL,double []pi,int [][]delta,List<Edge> edges, List<Edge> undirectededges,int [][]link) {
+		
+		int i=0;
+		
+		while(i<sizep) {
+			boolean exist=true;
+			int redundancy=0;
+			
+			while((exist==true)&&(redundancy<maxInitDup)) {
+			//while(redundancy<maxInitDup) {
+
+			//while((exist==true)) {
+
+				Individu  ind=new Individu(n);
+
+			List<Edge> subEdges = new ArrayList<>();
+			ind=coverFeasibilityOperator(ind, n, m, Talpha, delta,pi);
+			ind=connectFeasibiltyOperator(ind,n, m, graph, SPL, pi,edges,subEdges,link);
+			ind=redundancyRemovalOperator(ind,edges,n,m,subEdges,delta,Talpha,pi,link);
+
+			//ind=redundancyRemovalOperator(ind,undirectededges,n,m,subEdges,delta,Talpha,pi);
+			//int ag2=sc.nextInt();
+			/*System.out.println("sors!!!!!!!");
+			for( int j=0;j<ind.size;j++) {
+				System.out.print(ind.C[j]+ " ");
+			}*/
+			//int ag2=sc.nextInt();
+			exist=existCover(ind,i);
+			//System.out.println(exist);
+			if(exist==false) {
+				p.add(i, ind);
+				i++;
+				redundancy=0;
+			}
+			else {
+				redundancy++;
+			
+			}
+		
 			}
 			
 			
@@ -175,7 +281,7 @@ public class Population {
 			//System.out.println("");
 			//List<Integer> connectiveInd = new ArrayList<Integer>();
 			List<Integer> l = new ArrayList<Integer>();
-			Random random = new Random();
+			//Random random = new Random();
 			l.add(notUsedBasic.get(s));
 			//System.out.println("\notusedbasic "+notUsedBasic);
 			//System.out.println("s= "+s+"  "+notUsedBasic.get(s) );

@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 public class subProblemGA {
 	Scanner sc= new Scanner(System.in);
 	int sizep=100;
-	int MaxIT=20;
+	int MaxIT=2000;
 	int maxInitDup=100;
 	int maxDup=100;
 	List<Integer> cover;
@@ -27,18 +27,18 @@ public class subProblemGA {
     	Population pop=new Population(sizep, MaxIT, maxInitDup, maxDup,n);
     	
 		SPL=graph.evaluateShortPath(pi,n );
-    	pop.InitializePopulation(Talpha, n, m, graph, SPL, pi, delta, edges,undirectededges,link);
-    	//System.out.print("\n************************sizepop= "+sizep);
-    	//int ag2=sc.nextInt();
+    	pop.InitializePopulation1(Talpha, n, m, graph, SPL, pi, delta, edges,undirectededges,link);
+    	/*System.out.print("\n************************sizepop= "+sizep);
+    	int ag2=sc.nextInt();*/
     	pop.calculeFitnessPopulation(pi);
     		
     	int itr=0;
     	int dup=0;
     	//double bestFitness=1000;
-    	
+    
     	while((itr<MaxIT)&&(dup<maxDup)) {
-    		//long startTime = System.currentTimeMillis();
-			//long elapsedTime = 0L;
+    		/*long startTime = System.currentTimeMillis();
+    		long elapsedTime = 0L;*/
     		Individu C=new Individu(n);
     		/*for(int i=0; i<pi.length;i++)
     			System.out.println("pi["+(i) +"]="+pi[i]);*/
@@ -53,7 +53,8 @@ public class subProblemGA {
     			}
     			System.out.println(": "+pop.p.get(i).fitness);
     		}*/
-    		pop.tournement(ind1, ind2);	
+    	
+    		pop.tournement1(ind1, ind2);	
     		
     		/*System.out.println("after ordering");
     		System.out.println("");
@@ -96,9 +97,7 @@ public class subProblemGA {
 			}
 			System.out.println(": "+C.fitness);*/
 			//ag2=sc.nextInt();
-    		//elapsedTime = (new Date()).getTime() - startTime;
-	    	//System.out.println("execution time: "+elapsedTime);
-	    	//int ag2=sc.nextInt();
+    		
     		if(pop.existCover(C,pop.sizep)==false) {
     			//C.CalculeFitness(pi);
     			dup=0;
@@ -123,7 +122,9 @@ public class subProblemGA {
     		
     		//System.out.println("iterrr: "+itr);	
    		// int ag2=sc.nextInt();
-    		
+    		/*elapsedTime = (new Date()).getTime() - startTime;
+        	System.out.println("execution time: "+elapsedTime);
+        	int ag2=sc.nextInt();*/
     	}
     	
     	/*System.out.print("generation= "+ itr);

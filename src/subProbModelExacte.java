@@ -54,7 +54,10 @@ public class subProbModelExacte {
 				for(int i = 1; i < n; i++)
 					objective.addTerm(pi[i], y[i]);
 				cplex.addMinimize(objective);
-				
+				/***********************(Importconstraint)************************/
+
+				/*cplex.addEq(y[0],1);
+				/***************************************************/
 				/***********************(connetivityConstraint1)************************/
 				IloLinearNumExpr Assignement =cplex.linearNumExpr();
 				IloLinearNumExpr Assignement1 =cplex.linearNumExpr();
@@ -126,7 +129,7 @@ public class subProbModelExacte {
 						Assignement4.clear();
 					}
 					
-					/**********************(constrainttAlpha)**********************************/
+					/**********************(constrainttAlpha)******************/
 					IloLinearNumExpr Assignement5 =cplex.linearNumExpr();
 					for(int j = 0; j <m; j++)
 					{

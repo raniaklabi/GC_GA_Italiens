@@ -20,11 +20,11 @@ public class ECG {
 		/*P1.Read_Data_neighbour("Exp20_15_5_Neighbour.txt");
 		P1.link();
 		P1.Print_Data_NosInstance();*/
-		//P1.Read_Data_Francais("CMLP_03.dat");
+		P1.Read_Data_Francais("CMLP_25.dat");
 		File fichier = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\resultECG.txt");
 		BufferedWriter pw = new BufferedWriter(new FileWriter(fichier,true)) ;
-		P1.Read_Data_Francais(args[0]);
-		double TAalpha=Double.parseDouble(args[1]);
+		//P1.Read_Data_Francais(args[0]);
+		//double TAalpha=Double.parseDouble(args[1]);
 		P1.link();
 		P1.Print_Data_Francais();
 		Scanner sc= new Scanner(System.in);
@@ -74,7 +74,7 @@ public class ECG {
 		long elapsedTime = 0L;
     	InitialCoverSetsHeuristic coverSets=new InitialCoverSetsHeuristic();
     	Graph graph=null;
-    	coverSets.calculeCoverSets(TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edgesUndirected,P1.link);
+    	coverSets.calculeCoverSets(P1.TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edgesUndirected,P1.link);
     	coverSets.pop.calculeFitnessPopulation(initialPI);
     	// int ag2=sc.nextInt();
     	/*System.out.println("The population contains: ");
@@ -107,33 +107,8 @@ public class ECG {
 				
 				 mb=new MasterProb();
 				 mb.master(P1.N, P1.M, coverSets.K, coverSets.a, coverSets.b, P1.T);
-				/* System.out.println("****a****");	
-					for (int i = 0; i <P1.N; i++)
-	     			{	double s=0;
-	     				for (int k = 0; k <coverSets.K; k++)
-	     				{		s=s+(coverSets.a[i][k])*(mb.t[k]);
-	     						System.out.print(coverSets.a[i][k]+" ");
-	     						
-	     					
-	     				}
-	     				if(s<=P1.T[i]) System.out.print(": True");
-							else System.out.print(": false");
-	     				System.out.println("");	
-	     			}
-	     			System.out.println("****b****");	
-	     			for (int i = 0; i <P1.M; i++)
-	     			{	
-	     				for (int k = 0; k <coverSets.K; k++)
-	     				{
-	     						System.out.print(coverSets.b[i][k]+" ");	
-	     					
-	     				}
-	     				System.out.println("");	
-	     			}*/
-	     			// ag2=sc.nextInt();
 				 sph=new subProblemGA();
-				 r=sph.chromosome(P1.N, P1.M, P1.delta,TAalpha,edges,mb.pi,SPL,graph,edgesUndirected,P1.link);
-    			
+				 r=sph.chromosome(P1.N, P1.M, P1.delta,P1.TAalpha,edges,mb.pi,SPL,graph,edgesUndirected,P1.link);
 				 if(r>0) {
 				System.out.println("\nheuristic");
 			 // ag2=sc.nextInt();
@@ -163,9 +138,9 @@ public class ECG {
 				 }
 				 else{
 					 System.out.println("\nexacte");
-					// int ag2=sc.nextInt();
+					//int ag2=sc.nextInt();
 	        			subProbModelExacte spme= new subProbModelExacte();
-	        			r=spme.subProbExacte(mb.pi, P1.N, P1.M, P1.link, P1.delta, TAalpha);
+	        			r=spme.subProbExacte(mb.pi, P1.N, P1.M, P1.link, P1.delta, P1.TAalpha);
 	        			if(r>0) {
 	        				coverSets.K=coverSets.K+1;
 	        				 System.out.println("\n");
@@ -184,13 +159,17 @@ public class ECG {
 	                			if(occ>30) {
 	                				break;
 	                			}
-	            			//bestLifetime=mb.lifetime;
+	            			bestLifetime=mb.lifetime;
 	            			System.out.println("Optimum with lifetime="+bestLifetime);
-	            			// ag2=sc.nextInt();
+	            			System.out.println("r="+r);
+
+	            			//ag2=sc.nextInt();
 	        			}
 	        			else {
-	        				
-	        		    	System.out.println("End!!!!!!!!");
+	        				 /*mb=new MasterProb();
+	        				 mb.master(P1.N, P1.M, coverSets.K, coverSets.a, coverSets.b, P1.T);
+	        				 bestLifetime=mb.lifetime;*/
+	        				 System.out.println("End!!!!!!!!");
 	        		    	System.out.println("Optimum with lifetime="+mb.lifetime);
 	        		    	
 	        			}
@@ -206,10 +185,10 @@ public class ECG {
 			 
 
 				elapsedTime = (new Date()).getTime() - startTime;
-				pw.append("file"+args[0]+"Talpha"+TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde");
+			/*	pw.append("file"+args[0]+"Talpha"+P1.TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde");
 				pw.newLine();	
-				pw.close();
-		    	System.out.println("End!!!!!!!! with best lifetime"+bestLifetime+"execution time: "+elapsedTime/1000+" seconde");
+				pw.close();*/
+		    	System.out.println("End!!!!!!!! with best lifetime"+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
 
     		
 	}

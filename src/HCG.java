@@ -25,15 +25,13 @@ public class HCG {
 		P1.Read_Data_Francais(args[0]);
 		double TAalpha=Double.parseDouble(args[1]);
 		 System.out.println(TAalpha);
-		//int  ag2=sc.nextInt();
-		//P1.Read_Data_Francais("CMLP_03.dat");
+		//
+		//P1.Read_Data_Francais("CMLP_07.dat");
 		P1.link();
 		P1.Print_Data_Francais();
+		//int  ag2=sc.nextInt();
     	//double pi[]= {0,0,0,0,0,0,0,0,0,0};
-		double averageTime=0;
-		double averageLifetime=0;
-		double averageCS=0;
-		for(int lll=0;lll<5;lll++) {
+		
 			double r=1;
 			double bestLifetime;
 			double [][]SPL=new double[100][100];
@@ -82,8 +80,8 @@ public class HCG {
     	Graph graph=null;
     	coverSets.calculeCoverSets(TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edges,P1.link);
     	coverSets.pop.calculeFitnessPopulation(initialPI);
-    	/*System.out.println("\nThe population contains: ");
-    	for(int i=0;i<coverSets.pop.sizep;i++) {
+    	//System.out.println("\nThe population contains: ");
+    	/*for(int i=0;i<coverSets.pop.sizep;i++) {
     		System.out.println("Ind: "+(i+1));
     		for(int jj=0;jj<coverSets.pop.p.get(i).size;jj++) 
     		{
@@ -93,8 +91,8 @@ public class HCG {
     				
     		}
     		System.out.println(": "+coverSets.pop.p.get(i).fitness);
-    	}*/
-    	//ag2=sc.nextInt();
+    	}
+    	int ag2=sc.nextInt();*/
 
     	bestLifetime=0;
     	MasterProb mb;
@@ -176,24 +174,18 @@ public class HCG {
         			else {
         			bestLifetime=mb.lifetime;
         			occ=0;}
-        			if(occ>30) {
+        			if(occ>50) {
         				break;
         			}
     			
 				// ag2=sc.nextInt();	
     	}
 			 elapsedTime = (new Date()).getTime() - startTime;
-			 averageTime=averageTime+elapsedTime;
-			 averageLifetime=averageLifetime+bestLifetime;
-			 averageCS=averageCS+coverSets.K;
-		}	 
-			 
-				
-			 	pw.append("file"+args[0]+"Talpha"+TAalpha+" L="+(averageLifetime/5)+"execution time: "+(averageTime/1000)/5+" seconde"+"number CS="+averageCS/5);
-				pw.newLine();	
-				pw.close();
+			 pw.append("file"+args[0]+"Talpha"+TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
+			 pw.newLine();	
+			 pw.close();
 
-		    	System.out.println("End!!!!!!!! with best lifetime"+(averageLifetime/5)+"execution time: "+(averageTime/1000)/5+" seconde"+"number CS="+averageCS/5);
+		    	System.out.println("End!!!!!!!! with best lifetime"+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
     
 	}
 	
