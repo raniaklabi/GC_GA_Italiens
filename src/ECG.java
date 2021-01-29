@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ECG {
 
@@ -15,16 +17,18 @@ public class ECG {
 		double r=1;
 		double bestLifetime;
 		donnee  P1 = new donnee();
+		double time_limit=3600000;
     	/*P1.Read_Data_v1("Exp10_15_1_Neighbour.txt");
     	P1.Print_Data_NosInstance_Groupe1();*/
 		/*P1.Read_Data_neighbour("Exp20_15_5_Neighbour.txt");
 		P1.link();
 		P1.Print_Data_NosInstance();*/
-		P1.Read_Data_Francais("CMLP_25.dat");
+		
 		File fichier = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\resultECG.txt");
 		BufferedWriter pw = new BufferedWriter(new FileWriter(fichier,true)) ;
 		//P1.Read_Data_Francais(args[0]);
 		//double TAalpha=Double.parseDouble(args[1]);
+		P1.Read_Data_Francais("CMLP_03.dat");
 		P1.link();
 		P1.Print_Data_Francais();
 		Scanner sc= new Scanner(System.in);
@@ -104,32 +108,58 @@ public class ECG {
     	subProblemGA sph;
    	 	int occ=0;
 			 while((r>0)) {
-				
+					elapsedTime = (new Date()).getTime() - startTime;
+        			if(elapsedTime>=time_limit)
+        			{
+        			break;
+        			}
 				 mb=new MasterProb();
 				 mb.master(P1.N, P1.M, coverSets.K, coverSets.a, coverSets.b, P1.T);
 				 sph=new subProblemGA();
 				 r=sph.chromosome(P1.N, P1.M, P1.delta,P1.TAalpha,edges,mb.pi,SPL,graph,edgesUndirected,P1.link);
 				 if(r>0) {
-				System.out.println("\nheuristic");
+				//System.out.println("\nheuristic");
 			 // ag2=sc.nextInt();
-    			coverSets.K=coverSets.K+1;
-    			System.out.println("new cover set: "+ sph.cover);
-    			System.out.println("new cover set: "+ sph.coveredTarget);
-    			System.out.println("reduced cost= "+ r);
-    			
-    			System.out.println("K: "+ coverSets.K);
-    			
+    			/*coverSets.K=coverSets.K+1;
     			for(int i=0;i<sph.cover.size();i++)
     				coverSets.a[sph.cover.get(i)][coverSets.K-1]=1;
     			for(int i=0;i<sph.coveredTarget.size();i++)
-    				coverSets.b[sph.coveredTarget.get(i)][coverSets.K-1]=1;
-    			if(bestLifetime-mb.lifetime==0) {
+    				coverSets.b[sph.coveredTarget.get(i)][coverSets.K-1]=1;*/
+					 for(int i=0;i<sph.chroms.size();i++) {
+    					 coverSets.K=coverSets.K+1;
+    					 List<Integer> 	cover = new ArrayList<Integer>();
+    				    	for(int ii=0;ii<sph.chroms.get(i).size;ii++) {
+    				    		if (sph.chroms.get(i).C[ii]==1) {
+    				    			cover.add(ii);
+    				    		}
+    				    	}
+    						
+    				    	List<Integer>coveredTarget = new ArrayList<Integer>();
+    				    	for(int ii=1;ii<cover.size();ii++) {
+    				    		//System.out.println("*****gene: "+cover.get(i));
+    								ArrayList<Integer> Ti= new ArrayList<Integer>();
+    								for(int j=0;j<P1.M;j++) {
+    									if(P1.delta[cover.get(ii)][j]==1) {
+    										Ti.add(j);
+    									}
+    								}
+    								coveredTarget=union2sets(coveredTarget, Ti);
+    								
+    						}
+    				    	for(int ii=0;ii<cover.size();ii++)
+    		    				coverSets.a[cover.get(ii)][coverSets.K-1]=1;
+    		    			for(int ii=0;ii<coveredTarget.size();ii++)
+    		    				coverSets.b[coveredTarget.get(ii)][coverSets.K-1]=1;
+    					
+    				}
+					 
+					 if(bestLifetime-mb.lifetime==0) {
         			occ++;	
         			}
         			else {
         			bestLifetime=mb.lifetime;
         			occ=0;}
-        			if(occ>30) {
+        			if(occ>50) {
         				break;
         			}
     			//bestLifetime=mb.lifetime;
@@ -137,62 +167,107 @@ public class ECG {
     			
 				 }
 				 else{
-					 System.out.println("\nexacte");
+						elapsedTime = (new Date()).getTime() - startTime;
+	        			if(elapsedTime>=time_limit)
+	        			{
+	        			break;
+	        			}
+					// System.out.println("\nexacte");
 					//int ag2=sc.nextInt();
 	        			subProbModelExacte spme= new subProbModelExacte();
 	        			r=spme.subProbExacte(mb.pi, P1.N, P1.M, P1.link, P1.delta, P1.TAalpha);
 	        			if(r>0) {
-	        				coverSets.K=coverSets.K+1;
-	        				 System.out.println("\n");
+	        				
+	        				 for(int i=0;i<sph.chroms.size();i++) {
+	        					 coverSets.K=coverSets.K+1;
+	        					 List<Integer> 	cover = new ArrayList<Integer>();
+	        				    	for(int ii=0;ii<sph.chroms.get(i).size;ii++) {
+	        				    		if (sph.chroms.get(i).C[ii]==1) {
+	        				    			cover.add(ii);
+	        				    		}
+	        				    	}
+	        						
+	        				    	List<Integer>coveredTarget = new ArrayList<Integer>();
+	        				    	for(int ii=1;ii<cover.size();ii++) {
+	        				    		//System.out.println("*****gene: "+cover.get(i));
+	        								ArrayList<Integer> Ti= new ArrayList<Integer>();
+	        								for(int j=0;j<P1.M;j++) {
+	        									if(P1.delta[cover.get(ii)][j]==1) {
+	        										Ti.add(j);
+	        									}
+	        								}
+	        								coveredTarget=union2sets(coveredTarget, Ti);
+	        								
+	        						}
+	        				    	for(int ii=0;ii<cover.size();ii++)
+	        		    				coverSets.a[cover.get(ii)][coverSets.K-1]=1;
+	        		    			for(int ii=0;ii<coveredTarget.size();ii++)
+	        		    				coverSets.b[coveredTarget.get(ii)][coverSets.K-1]=1;
+	        					
+	        				}
+	        				/*coverSets.K=coverSets.K+1;
 	        				for(int i=0;i<spme.cover.size();i++)
 	            				coverSets.a[spme.cover.get(i)][coverSets.K-1]=1;
 	            			for(int i=0;i<spme.coveredTarget.size();i++)
-	            				coverSets.b[spme.coveredTarget.get(i)][coverSets.K-1]=1;
-	            			System.out.println("cover: "+spme.cover);	
-	            			System.out.println("covered Target: "+spme.coveredTarget);	
-	            			if(bestLifetime-mb.lifetime==0) {
-	                			occ++;	
-	                			}
-	                			else {
-	                			bestLifetime=mb.lifetime;
-	                			occ=0;}
-	                			if(occ>30) {
-	                				break;
-	                			}
-	            			bestLifetime=mb.lifetime;
-	            			System.out.println("Optimum with lifetime="+bestLifetime);
-	            			System.out.println("r="+r);
+	            				coverSets.b[spme.coveredTarget.get(i)][coverSets.K-1]=1;*/
+	            			//System.out.println("cover: "+spme.cover);	
+	            			//System.out.println("covered Target: "+spme.coveredTarget);	
+	            			
+	            			//bestLifetime=mb.lifetime;
+	            			//System.out.println("Optimum with lifetime="+bestLifetime);
+	            			//System.out.println("r="+r);
 
 	            			//ag2=sc.nextInt();
+	        				 if(bestLifetime-mb.lifetime==0) {
+		                			occ++;	
+		                			}
+		                			else {
+		                			bestLifetime=mb.lifetime;
+		                			occ=0;}
+		                			if(occ>50) {
+		                				break;
+		                			}
 	        			}
 	        			else {
-	        				 /*mb=new MasterProb();
-	        				 mb.master(P1.N, P1.M, coverSets.K, coverSets.a, coverSets.b, P1.T);
-	        				 bestLifetime=mb.lifetime;*/
+	    
+	        				 bestLifetime=mb.lifetime;
 	        				 System.out.println("End!!!!!!!!");
-	        		    	System.out.println("Optimum with lifetime="+mb.lifetime);
+	        		    	//System.out.println("Optimum with lifetime="+mb.lifetime);
 	        		    	
 	        			}
 	        		}
     			
-				 System.out.println("reduced cost= "+ r);
+				// System.out.println("reduced cost= "+ r);
  		    	System.out.println("Optimum with lifetime="+bestLifetime);
 
-    			// System.out.println("\nheuristic");
-			//	int ag2=sc.nextInt();
+ 		   	elapsedTime = (new Date()).getTime() - startTime;
+			if(elapsedTime>=time_limit)
+			{
+			break;
+			}
     		
 			 }
-			 
-
 				elapsedTime = (new Date()).getTime() - startTime;
-			/*	pw.append("file"+args[0]+"Talpha"+P1.TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde");
-				pw.newLine();	
+				/*pw.append("file"+args[0]+"Talpha"+P1.TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
+				pw.newLine();
 				pw.close();*/
 		    	System.out.println("End!!!!!!!! with best lifetime"+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
 
     		
 	}
 	
+	public static List<Integer> union2sets(List<Integer> H1,List<Integer> H2)
+	{
 
+
+		 List<Integer> union= Stream.concat(H2.stream(), H1.stream())
+			        .distinct().sorted()
+			        .collect(Collectors.toList());
+		
+
+	// System.out.println(union);
+	return union;
+
+	}
 }
 

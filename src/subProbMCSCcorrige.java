@@ -18,7 +18,8 @@ public class subProbMCSCcorrige {
 	public double coverMCSC(int n,int m,int [][]delta,double Talpha,List<Edge>  edges,double []pi,int [][]link) {
 		Scanner sc= new Scanner(System.in);
 		Graph graph = new Graph(edges,n,pi,link);
-		
+		double p1=1;
+		double p2=1;
 		
    	 	for(int i=0;i<edges.size();i++)
         {	
@@ -120,14 +121,29 @@ public class subProbMCSCcorrige {
 						Ti.add(ii);
 					}
 				List<Integer> supTargets=Difference2sets( Ti,coveredTarget);
-			//	System.out.print("SUpp Targets"+supTargets);
-				//ag2=sc.nextInt();
+				//List<Integer> unionTargets=union2sets( Ti,coveredTarget);
+				//System.out.println("covered Targets"+coveredTarget.size());
+				//System.out.println("SUpp Targets"+supTargets.size());
+				
 				double v=0;
 				for(int k=1;k<result.size();k++)
 					v=v+pi[result.get(k)];
-			double f= v/supTargets.size();
+				double f;
+				double f1=Talpha-(coveredTarget.size());
+				
+				if(supTargets.size()>f1) {
+					f= v/f1;
+					
+				}
+				else {
+					f= v/supTargets.size();
+				}
+			//double f= v/supTargets.size();
+			//double f=Math.sqrt(Math.pow(v, 2)+1/Math.pow(supTargets.size(),2));
+
+			
 			// System.out.print("v= "+ v+"suuppTragets= "+supTargets.size()+"f="+f);
-			// ag2=sc.nextInt();
+			//int ag2=sc.nextInt();
 			//if((f<fitness)&&((!cover.contains(s2))||(!cover.contains(s1)))) {
 			if(f<fitness) {
 				fitness=f;
@@ -162,6 +178,7 @@ public class subProbMCSCcorrige {
 			}
 			//System.out.println("talpha="+coveredTarget.size());
 			//System.out.println(cover);
+		
 		}
 		if(S.size()>0) {
 		//System.out.println("sors!!!!! with talpha="+coveredTarget.size());

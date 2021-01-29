@@ -223,48 +223,7 @@ public double[][]  evaluateShortPath(double []pi,int n){
       
     }
 
-    public Graph(List<Edge> edges,int n,Individu ind,List<Edge> subEdges,double []pi)
-    {cost=new double[n][n];
-	for(int ii=0;ii<n;ii++)
-		for(int j=0;j<n;j++)
-			if(ii==j) {
-				cost[ii][j]=0;
-			}
-			else {
-				cost[ii][j]=I;
-			}
-			
-    			
-        // adjacency list memory allocation
-        for (int i = 0; i < edges.size(); i++)
-            adj_list.add(i, new ArrayList<>());
-        List<Integer> cover= new ArrayList<Integer>();
-        // add edges to the graph
-        for(int i=0;i<ind.size;i++) {
-        	if(ind.C[i]==1) {
-        		cover.add(i);
-        	}
-        }
-       
-        for (Edge e :  edges)
-        {	
-        	if((ind.C[e.src]==1)&&(ind.C[e.dest]==1)&&(cover.indexOf(e.src)+1==cover.indexOf(e.dest)))	
-        	//if((ind.C[e.src]==1)&&(ind.C[e.dest]==1))
-
-        	{	
-        	  e.weight=pi[e.dest]+pi[e.src];
-        		//e.weight=pi[e.dest];
-        		subEdges.add(new Edge(e.src,e.dest, pi));
-        		//subEdges.add(new Edge(e.dest,e.src, pi));
-        		adj_list.get(e.src).add(new Node(e.dest,Integer.toString(e.dest),e.weight));
-        		//adj_list.get(e.dest).add(new Node(e.src,Integer.toString(e.src),e.weight));
-        		cost[e.src][e.dest]=e.weight;
-        		//cost[e.dest][e.src]=e.weight;
-        	}
-        
-            
-        }
-    }
+  
 // print adjacency list for the graph
     public static void printGraph(Graph graph,int n)  {
         int src_vertex = 0;

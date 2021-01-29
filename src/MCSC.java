@@ -133,7 +133,7 @@ public class MCSC {
 		pw.newLine();	
 		pw.close();
 
-		System.out.println("Talpha"+TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
+		System.out.println("Talpha"+P1.TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
 	}
 	
 
