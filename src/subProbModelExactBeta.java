@@ -10,17 +10,17 @@ import ilog.concert.IloLinearNumExpr;
 import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex;
 
-public class subProbModelExacte {
+public class subProbModelExactBeta {
 	double r;
 	List<Integer> cover;
 	List<Integer> coveredTarget;
 	Scanner sc= new Scanner(System.in);
-	public subProbModelExacte() {
+	public subProbModelExactBeta() {
 		r=0;
 		cover= new ArrayList<Integer>();
 		coveredTarget= new ArrayList<Integer>();
 	}
-	public double subProbExacte(double []pi,int n,int m,int [][]link, int [][]delta,double tAlpha) {
+	public double subProbExacteBeta(double []pi,double []fi,int n,int m,int [][]link, int [][]delta,double tAlpha,double beta) {
 		try
 		{	/*	System.out.println("\n Deeeelta: ");
 		    for(int i=0;i<n;i++)
@@ -52,8 +52,11 @@ public class subProbModelExacte {
 					z[i] = cplex.boolVar();
 				}
 				IloLinearNumExpr objective=cplex.linearNumExpr();
-				for(int i = 1; i < n; i++)
+				for(int i = 0; i < n; i++)
 					objective.addTerm(pi[i], y[i]);
+				for(int i = 0; i < m; i++)
+					objective.addTerm(-fi[i], z[i]);
+				
 				cplex.addMinimize(objective);
 				/***********************(Importconstraint)************************/
 
@@ -152,9 +155,9 @@ public class subProbModelExacte {
 						}
 						
 							for(int i=1;i<n;i++) {
-								System.out.print((int)cplex.getValue(y[i])+"**** ");
+								//System.out.print((int)cplex.getValue(y[i])+"**** ");
 								if((int)cplex.getValue(y[i])==1) {
-									s=s+(pi[i]*(int)cplex.getValue(y[i]));
+									r=r+(pi[i]*(int)cplex.getValue(y[i]));
 									ArrayList<Integer> Ti= new ArrayList<Integer>();
 									for(int j=0;j<m;j++) {
 										if(delta[i][j]==1) {
@@ -164,8 +167,20 @@ public class subProbModelExacte {
 									coveredTarget=union2sets(coveredTarget, Ti);
 								}
 							}
-						
-							r=1-s;
+							
+							/*for(int i=0;i<m;i++) {
+								if((int)cplex.getValue(z[i])==1) {
+									r=r-fi[i];
+									s=s+(beta*fi[i]);
+								}
+							}*/
+							for(int i=0;i<coveredTarget.size();i++) {
+								r=r-fi[coveredTarget.get(i)];
+								s=s+(beta*fi[coveredTarget.get(i)]);
+							}
+							//r=s-r;
+							//r=1-s-r;
+							r=1-s-cplex.getObjValue();
 							System.out.println("\nreduced cost= "+r);
 							//int ag2=sc.nextInt();
 						}

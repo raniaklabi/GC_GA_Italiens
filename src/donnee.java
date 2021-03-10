@@ -20,11 +20,12 @@ public class donnee {
 	int M; // Nombre M de zones a surveiller 
 	int nbreDeTypeDeSur;
 	int area=500;
+	Scanner sc= new Scanner(System.in);
 	int link[][]=new int [NC][NC];
 	double cordSensors[][] = new double[NC][2];
 	double cordTargets[][] = new double[NC][2];
 	protected double alpha=1;
-	protected double TAalpha=15;
+	protected double TAalpha;
 	protected double betha=alpha;
 	double Distance[][] = new double[NC][NT];
 	int Voisin[][] = new int[NC][NC];
@@ -157,8 +158,7 @@ public class donnee {
 			}
 			System.out.println("");
 		}  
-		    
-		//int age=sc.nextInt();
+		   TAalpha=Math.ceil(alpha*M);
 		
 	}
 	public void Read_Data_Francais(String fichier1) 

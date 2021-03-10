@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.print.attribute.standard.Sides;
 import javax.swing.text.GapContent;
@@ -177,8 +179,69 @@ public double[][]  evaluateShortPath(double []pi,int n){
  
         // add edges to the graph
         for (Edge e : edges)
-        {	e.weight=pi[e.dest]+pi[e.src];
-        	//e.weight=pi[e.dest];
+        {	//e.weight=pi[e.dest]+pi[e.src];
+        	e.weight=pi[e.dest];
+            // allocate new node in adjacency List from src to dest
+            adj_list.get(e.src).add(new Node(e.dest,Integer.toString(e.dest), e.weight));
+            //adj_list.get(e.dest).add(new Node(e.src,Integer.toString(e.src), e.weight));
+            cost[e.src][e.dest]=e.weight;
+           // cost[e.dest][e.src]=e.weight;
+        }
+      
+      
+    }
+    public Graph(List<Edge> edges,int n,double []pi,int [][] link,int [][]delta,int m,double []fi)
+    {	cost=new double[n][n];
+   
+    	for(int ii=0;ii<n;ii++)
+    		{for(int j=0;j<n;j++)
+    			{if(ii==j) {
+    				cost[ii][j]=0;
+    			}
+    			else if (link[ii][j]==1) {
+    				cost[ii][j]=pi[j];
+    				List<Integer> coveredTarget= new ArrayList<Integer>();
+    		    	
+    				for(int jj=0;jj<m;jj++) {
+    					if(delta[ii][j]==1) {
+    						coveredTarget.add(jj);
+    					}
+    				
+    				
+    			}
+    				for(int i=0;i<coveredTarget.size();i++) {
+    					cost[ii][j]=cost[ii][j]-fi[coveredTarget.get(i)];	
+    	        	}	
+    			}
+    		
+    			else {
+    				cost[ii][j]=I;
+    			}
+    			}
+    		}
+    	
+    			
+        // adjacency list memory allocation
+    	//for (int i = 0; i < edges.size(); i++)
+        for (int i = 0; i < edges.size(); i++)
+            adj_list.add(i, new ArrayList<>());
+ 
+        // add edges to the graph
+        for (Edge e : edges)
+        {	//e.weight=pi[e.dest]+pi[e.src];
+        	List<Integer> coveredTarget= new ArrayList<Integer>();
+    	
+    				for(int j=0;j<m;j++) {
+    					if(delta[e.dest][j]==1) {
+    						coveredTarget.add(j);
+    					}
+    				
+    				
+    			}
+        	e.weight=pi[e.dest];
+        	for(int i=0;i<coveredTarget.size();i++) {
+        		e.weight=e.weight-fi[coveredTarget.get(i)];	
+        	}
             // allocate new node in adjacency List from src to dest
             adj_list.get(e.src).add(new Node(e.dest,Integer.toString(e.dest), e.weight));
             //adj_list.get(e.dest).add(new Node(e.src,Integer.toString(e.src), e.weight));
@@ -212,8 +275,8 @@ public double[][]  evaluateShortPath(double []pi,int n){
  
         // add edges to the graph
         for (Edge e : edges)
-        {	e.weight=pi[e.dest]+pi[e.src];
-        	//e.weight=pi[e.dest];
+        {	//e.weight=pi[e.dest]+pi[e.src];
+        	e.weight=pi[e.dest];
             // allocate new node in adjacency List from src to dest
             adj_list.get(e.src).add(new Node(e.dest,Integer.toString(e.dest), e.weight));
             //adj_list.get(e.dest).add(new Node(e.src,Integer.toString(e.src), e.weight));
@@ -376,4 +439,17 @@ public double[][]  evaluateShortPath(double []pi,int n){
     	return pathh;
     	
     }
+	public List<Integer> union2sets(List<Integer> H1,List<Integer> H2)
+	{
+
+
+		 List<Integer> union= Stream.concat(H2.stream(), H1.stream())
+			        .distinct().sorted()
+			        .collect(Collectors.toList());
+		
+
+	// System.out.println(union);
+	return union;
+
+	}
 }

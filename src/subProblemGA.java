@@ -9,11 +9,11 @@ import java.util.stream.Stream;
 public class subProblemGA {
 	Scanner sc= new Scanner(System.in);
 	int sizep=100;
-	int MaxIT=2000;
+	int MaxIT=100;
 	int maxInitDup=100;
 	int maxDup=100;
-	//List<Integer> cover;
-	//List<Integer> coveredTarget;
+	List<Integer> cover;
+	List<Integer> coveredTarget;
 	List<Individu> chroms;
 	public double chromosome(int n, int m,int [][]delta,double Talpha,List<Edge>  edges,double []pi,double [][]SPL,Graph graph,List<Edge>  undirectededges,int [][]link) {
 		
@@ -164,16 +164,16 @@ public class subProblemGA {
     	System.out.println("\n fitness: "+bestSolution.fitness);
     	ag2=sc.nextInt();*/
     	
-		/*cover = new ArrayList<Integer>();
+		cover = new ArrayList<Integer>();
     	for(int i=0;i<bestSolution.size;i++) {
     		if (bestSolution.C[i]==1) {
     			cover.add(i);
     		}
-    	}*/
+    	}
 		/*System.out.print("*****coveredTargets: "+coveredTarget);
 		System.out.print("*****cover: "+cover);*/
 		//int ag2=sc.nextInt();
-    	/*coveredTarget = new ArrayList<Integer>();
+    	coveredTarget = new ArrayList<Integer>();
     	for(int i=1;i<cover.size();i++) {
     		//System.out.println("*****gene: "+cover.get(i));
 				ArrayList<Integer> Ti= new ArrayList<Integer>();
@@ -184,7 +184,7 @@ public class subProblemGA {
 				}
 				coveredTarget=union2sets(coveredTarget, Ti);
 				
-		}*/
+		}
     	/*for(int i=0;i<pop.sizep;i++) {
     		System.out.println("Ind: "+(i+1));
     		for(int jj=0;jj<pop.p.get(i).size;jj++) 

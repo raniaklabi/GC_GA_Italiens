@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class InitialCoverSetsHeuristic {
-	public int K=5;
+	public int K=2;
 	int MaxIT=100;
 	int maxInitDup=100;
 	int maxDup=100;
@@ -36,10 +36,10 @@ public class InitialCoverSetsHeuristic {
          }
     	 SPL=graph.evaluateShortPath(pi,n );
 		pop=new Population(K, MaxIT, maxInitDup, maxDup,n);
-		pop.InitializePopulation(Talpha, n, m, graph, SPL, pi, delta, edges,undirectededges,link);
+		pop.InitializePopulation1(Talpha, n, m, graph, SPL, pi, delta, edges,undirectededges,link);
 		K=pop.sizep;
-		a= new int[n][10000];
-		b= new int[m][10000];
+		a= new int[n][100000];
+		b= new int[m][100000];
 		for(int k=0;k<pop.sizep;k++) {
 		for(int i=0;i<n;i++) {
 			a[i][k]=pop.p.get(k).C[i];
@@ -64,26 +64,6 @@ public class InitialCoverSetsHeuristic {
 			
 		}
 		}
-	/*	System.out.println("****a****");	
-		for (int i = 0; i <n; i++)
-		{	
-			for (int k = 0; k <pop.sizep; k++)
-			{
-					System.out.print(a[i][k]+" ");	
-				
-			}
-			System.out.println("");	
-		}
-		System.out.println("****b****");	
-		for (int i = 0; i <m; i++)
-		{	
-			for (int k = 0; k <pop.sizep; k++)
-			{
-					System.out.print(b[i][k]+" ");	
-				
-			}
-			System.out.println("");	
-		}
-		*/
+	
 	}
 }

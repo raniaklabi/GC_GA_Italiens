@@ -143,7 +143,76 @@ public class Population {
     	ind2.fitness=this.p.get(1).fitness;
  
 	}
-	public void InitializePopulation(double Talpha,int n,int m,Graph graph,double [][]SPL,double []pi,int [][]delta,List<Edge> edges, List<Edge> undirectededges,int [][]link) {
+	public void InitializePopulationBeta(double Talpha,int n,int m,Graph graph,double [][]SPL,double []pi,int [][]delta,List<Edge> edges, List<Edge> undirectededges,int [][]link) {
+		
+		int i=0;
+		boolean beta=true;
+		while(beta==true) {
+		while(i<sizep) {
+			boolean exist=true;
+			int redundancy=0;
+			
+			while((exist==true)&&(redundancy<maxInitDup)) {
+			//while(redundancy<maxInitDup) {
+
+			//while((exist==true)) {
+
+				Individu  ind=new Individu(n);
+
+			List<Edge> subEdges = new ArrayList<>();
+			ind=coverFeasibilityOperator(ind, n, m, Talpha, delta,pi,i);
+			ind=connectFeasibiltyOperator(ind,n, m, graph, SPL, pi,edges,subEdges,link,i);
+			ind=redundancyRemovalOperator(ind,edges,n,m,subEdges,delta,Talpha,pi,link,i);
+
+			//ind=redundancyRemovalOperator(ind,undirectededges,n,m,subEdges,delta,Talpha,pi);
+			//int ag2=sc.nextInt();
+			/*System.out.println("sors!!!!!!!");
+			for( int j=0;j<ind.size;j++) {
+				System.out.print(ind.C[j]+ " ");
+			}*/
+			//int ag2=sc.nextInt();
+			exist=existCover(ind,i);
+			//System.out.println(exist);
+			if(exist==false) {
+				p.add(i, ind);
+				i++;
+				redundancy=0;
+			}
+			else {
+				redundancy++;
+			
+			}
+			
+			}
+			
+			
+			if(redundancy>=maxInitDup) {
+				sizep=i;
+				break;
+			}
+	
+		}
+		for(int jj=0;jj<p.get(0).size;jj++)
+		 {List<Integer> coveredTarget= new ArrayList<Integer>();
+			for(int j=0;j<p.size();j++) {
+				ArrayList<Integer> Ti= new ArrayList<Integer>();
+				for(int jjj=0;jjj<m;jjj++) {
+					if(delta[i][jjj]==1) {
+						Ti.add(jjj);
+					}
+				}
+				coveredTarget=union2sets(coveredTarget, Ti);
+			
+			}
+			if(coveredTarget.size()<Talpha) {
+				beta=false;
+				break;
+			}
+		}
+		
+	}	
+	}
+public void InitializePopulation(double Talpha,int n,int m,Graph graph,double [][]SPL,double []pi,int [][]delta,List<Edge> edges, List<Edge> undirectededges,int [][]link) {
 		
 		int i=0;
 		
@@ -193,6 +262,58 @@ public class Population {
 		}
 		
 		
+	}
+	public void InitializePopulation2(double Talpha,int n,int m,Graph graph,double [][]SPL,double []pi,int [][]delta,List<Edge> edges, List<Edge> undirectededges,int [][]link) {
+		
+		int i=0;
+		int j=0;
+		while(i<sizep) {
+			boolean exist=true;
+			int redundancy=0;
+			
+			while((exist==true)&&(redundancy<maxInitDup)) {
+			//while(redundancy<maxInitDup) {
+
+			//while((exist==true)) {
+
+				Individu  ind=new Individu(n);
+
+			List<Edge> subEdges = new ArrayList<>();
+			ind=coverFeasibilityOperator(ind, n, m, Talpha, delta,pi,j);
+			ind=connectFeasibiltyOperator(ind,n, m, graph, SPL, pi,edges,subEdges,link,j);
+			ind=redundancyRemovalOperator(ind,edges,n,m,subEdges,delta,Talpha,pi,link,j);
+
+			//ind=redundancyRemovalOperator(ind,undirectededges,n,m,subEdges,delta,Talpha,pi);
+			//int ag2=sc.nextInt();
+			/*System.out.println("sors!!!!!!!");
+			for( int j=0;j<ind.size;j++) {
+				System.out.print(ind.C[j]+ " ");
+			}*/
+			//int ag2=sc.nextInt();
+			exist=existCover(ind,i);
+			//System.out.println(exist);
+			if(exist==false) {
+				p.add(i, ind);
+				i++;
+				redundancy=0;
+			}
+			else {
+				redundancy++;
+				j++;
+			}
+			
+			}
+			
+			
+			if(redundancy>=maxInitDup) {
+				sizep=i;
+				break;
+			}
+	
+		}
+		
+		/*System.out.println(sizep);
+		int ag2=sc.nextInt();*/
 	}
 public void InitializePopulation1(double Talpha,int n,int m,Graph graph,double [][]SPL,double []pi,int [][]delta,List<Edge> edges, List<Edge> undirectededges,int [][]link) {
 		

@@ -25,16 +25,36 @@ public class HCG {
 		/*P1.Read_Data_neighbour("Exp20_15_1_Neighbour.txt");
 		P1.link();
 		P1.Print_Data_NosInstance();*/
-		/*P1.Read_Data_Francais(args[0]);
+		P1.Read_Data_Francais(args[0]);
 		double TAalpha=Double.parseDouble(args[1]);
-		 System.out.println(TAalpha);*/
+		// System.out.println(TAalpha);
 		//
-		P1.Read_Data_Francais("CMLP_01.dat");
+		//P1.Read_Data_Francais("CMLP_01.dat");
 		P1.link();
-		//P1.Print_Data_Francais();
+		P1.Print_Data_Francais();
 		//int  ag2=sc.nextInt();
     	//double pi[]= {0,0,0,0,0,0,0,0,0,0};
 		
+		
+    	//System.out.println("\nThe population contains: ");
+    	/*for(int i=0;i<coverSets.pop.sizep;i++) {
+    		System.out.println("Ind: "+(i+1));
+    		for(int jj=0;jj<coverSets.pop.p.get(i).size;jj++) 
+    		{
+    			if(coverSets.pop.p.get(i).C[jj]==1) {
+    				System.out.print(jj+" ");
+    			}
+    				
+    		}
+    		System.out.println(": "+coverSets.pop.p.get(i).fitness);
+    	}
+    	int ag2=sc.nextInt();*/
+    	double averageTime=0;
+		double averageLifetime=0;
+		double averageCS=0;
+		double minLifetime=1000;
+		double maxLifetime=0;
+		for(int lll=0;lll<5;lll++) {
 		double r=1;
 		double bestLifetime;
 		double [][]SPL=new double[P1.N][P1.N];
@@ -44,8 +64,6 @@ public class HCG {
 		for(int i=0;i<P1.N;i++) {
 			initialPI[i]=0;
 		}
-	
-
 		List<Edge> edgesUndirected= new ArrayList<>();
     	
     	for(int i=0;i<P1.N;i++) {
@@ -68,34 +86,66 @@ public class HCG {
     	}
 	
     	InitialCoverSetsHeuristic coverSets=new InitialCoverSetsHeuristic();
-    	Graph graph=null;
-    	coverSets.calculeCoverSets(P1.TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edges,P1.link);
+		Graph graph=null;
+    	coverSets.calculeCoverSets(TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edges,P1.link);
     	coverSets.pop.calculeFitnessPopulation(initialPI);
-    	//System.out.println("\nThe population contains: ");
-    	/*for(int i=0;i<coverSets.pop.sizep;i++) {
-    		System.out.println("Ind: "+(i+1));
-    		for(int jj=0;jj<coverSets.pop.p.get(i).size;jj++) 
-    		{
-    			if(coverSets.pop.p.get(i).C[jj]==1) {
-    				System.out.print(jj+" ");
-    			}
-    				
-    		}
-    		System.out.println(": "+coverSets.pop.p.get(i).fitness);
-    	}
-    	int ag2=sc.nextInt();*/
-
     	bestLifetime=0;
     	MasterProb mb;
     	subProblemGA sph;
     	 int occ=0;
 			 while((r>0)) {
-    	
+					elapsedTime = (new Date()).getTime() - startTime;
+        			if(elapsedTime>=time_limit)
+        			{
+        			break;
+        			}
     	
 				 mb=new MasterProb();
+				 System.out.println("k="+coverSets.K);
 				 mb.master(P1.N, P1.M, coverSets.K, coverSets.a, coverSets.b, P1.T);
+				/* System.out.println( " **");
+				 for(int k=0;k<mb.t.length;k++) {
+						
+						System.out.print(mb.t[k]+ " **");
+						}
+				 
+				 System.out.println("\n****a****");	
+	    			for (int i = 0; i <P1.N; i++)
+	    			{	
+	    				for (int k = 0; k <coverSets.K; k++)
+	    				{
+	    						System.out.print(coverSets.a[i][k]+" ");	
+	    					
+	    				}
+	    				System.out.println("");	
+	    			}
+	    			System.out.println("****b****");	
+	    			for (int i = 0; i <P1.M; i++)
+	    			{	
+	    				for (int k = 0; k <coverSets.K; k++)
+	    				{
+	    						System.out.print(coverSets.b[i][k]+" ");	
+	    					
+	    				}
+	    				System.out.println("");	
+	    			}
+	    			int ag2=sc.nextInt();
+				
+				
+				 System.out.println( " **"+coverSets.K);
+				 System.out.println( " **"+mb.t.length);*/
+				/* for(int i=0;i<mb.t.length;i++) {
+					 if(mb.t[i]==0) {
+						 //s--;
+						  mb.t=removeTheElement(mb.t,i);
+						 coverSets.a=deleteColumn(coverSets.a, i);
+						 coverSets.b=deleteColumn(coverSets.b, i);
+						 i--;
+						 coverSets.K--;
+					 }
+				 }*/
 				 sph=new subProblemGA();
-				 r=sph.chromosome(P1.N, P1.M, P1.delta,P1.TAalpha,edges,mb.pi,SPL,graph,edgesUndirected,P1.link);
+				 r=sph.chromosome(P1.N, P1.M, P1.delta,TAalpha,edges,mb.pi,SPL,graph,edgesUndirected,P1.link);
 				 for(int i=0;i<sph.chroms.size();i++) {
 					 coverSets.K=coverSets.K+1;
 					 List<Integer> 	cover = new ArrayList<Integer>();
@@ -127,7 +177,7 @@ public class HCG {
 				 
 				 
 				 
-				/* coverSets.K=coverSets.K+1;
+				/*coverSets.K=coverSets.K+1;
     			for(int i=0;i<sph.cover.size();i++)
     				coverSets.a[sph.cover.get(i)][coverSets.K-1]=1;
     			for(int i=0;i<sph.coveredTarget.size();i++)
@@ -170,19 +220,27 @@ public class HCG {
         			if(occ>50) {
         				break;
         			}
-        			elapsedTime = (new Date()).getTime() - startTime;
-        			if(elapsedTime>=time_limit)
-        			{
-        			break;
-        			}
+        		
         			
 				// ag2=sc.nextInt();	
     	}
 			 elapsedTime = (new Date()).getTime() - startTime;
-			/* pw.append("file"+args[0]+"Talpha"+P1.TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
-			 pw.newLine();	
-			 pw.close();*/
-			 System.out.println("End!!!!!!!! with best lifetime"+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
+			 averageTime=averageTime+elapsedTime;
+			 averageLifetime=averageLifetime+bestLifetime;
+			 averageCS=averageCS+coverSets.K;
+			 if(bestLifetime<minLifetime) {
+				 minLifetime=bestLifetime;
+			 }
+			 if(bestLifetime>maxLifetime) {
+				 maxLifetime=bestLifetime;
+			 }
+			 //int ag2=sc.nextInt();
+		}
+		pw.append("file"+args[0]+"Talpha"+TAalpha+" L="+(averageLifetime/5)+"execution time: "+(averageTime/1000)/5+" seconde"+"number CS="+averageCS/5+"min: "+minLifetime+"max: "+maxLifetime);
+		pw.newLine();	
+		pw.close();
+
+    	System.out.println("End!!!!!!!! with best lifetime"+(averageLifetime/5)+"execution time: "+(averageTime/1000)/5+" seconde"+"number CS="+averageCS/5);
     
 	}
 	public static List<Integer> union2sets(List<Integer> H1,List<Integer> H2)
@@ -198,5 +256,56 @@ public class HCG {
 	return union;
 
 	}
+	public static int[][] deleteColumn(int[][] args,int col)
+	{
+	    int[][] nargs=null;
+	    if(args != null && args.length > 0 && args[0].length > col)
+	    {
+	        nargs = new int[args.length][args[0].length-1];
+	        for(int i=0; i<args.length; i++)
+	        { 
+	            int newColIdx = 0;
+	            for(int j=0; j<args[i].length; j++)
+	            {
+	                if(j != col)
+	                {
+	                    nargs[i][newColIdx] = args[i][j];
+	                    newColIdx++;
+	                }               
+	            }
+	        }
+	    }
+	    return nargs; 
+	}
+	public static double[] removeTheElement(double[] arr, int index) 
+	{ 
 
+	if (arr == null
+	|| index < 0
+	|| index >= arr.length) { 
+
+	return arr; 
+	} 
+
+	// Create another array of size one less 
+	double[] anotherArray = new double[arr.length - 1]; 
+
+	// Copy the elements except the index 
+	// from original array to the other array 
+	for (int i = 0, k = 0; i < arr.length; i++) { 
+
+	// if the index is 
+	// the removal element index 
+	if (i == index) { 
+	continue; 
+	} 
+
+	// if the index is not 
+	// the removal element index 
+	anotherArray[k++] = arr[i]; 
+	} 
+
+	// return the resultant array 
+	return anotherArray; 
+	} 
 }
