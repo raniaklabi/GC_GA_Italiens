@@ -15,7 +15,7 @@ public class subProblemGA {
 	List<Integer> cover;
 	List<Integer> coveredTarget;
 	List<Individu> chroms;
-	public double chromosome(int n, int m,int [][]delta,double Talpha,List<Edge>  edges,double []pi,double [][]SPL,Graph graph,List<Edge>  undirectededges,int [][]link) {
+	public double chromosome(int n, int m,int [][]delta,double Talpha,List<Edge>  edges,double []pi,double [][]SPL,Graph graph,int [][]link) {
 		
     	graph = new Graph(edges,n,pi,link);
    	 	for(int i=0;i<edges.size();i++)
@@ -27,12 +27,12 @@ public class subProblemGA {
     	Population pop=new Population(sizep, MaxIT, maxInitDup, maxDup,n);
     	
 		SPL=graph.evaluateShortPath(pi,n );
-    	pop.InitializePopulation1(Talpha, n, m, graph, SPL, pi, delta, edges,undirectededges,link);
-
-    	/*System.out.print("\n************************sizepop= "+sizep);
-    	int ag2=sc.nextInt();*/
+    	pop.InitializePopulation1(Talpha, n, m, graph, SPL, pi, delta, edges,link);
+    	
+    	System.out.print("\n************************sizepop= "+pop.sizep);
+    	/*int ag2=sc.nextInt();*/
     	pop.calculeFitnessPopulation(pi);
-    		
+    
     	int itr=0;
     	int dup=0;
     	//double bestFitness=1000;
@@ -54,7 +54,7 @@ public class subProblemGA {
     			}
     			System.out.println(": "+pop.p.get(i).fitness);
     		}*/
-    	
+    		
     		pop.tournement1(ind1, ind2);	
     		
     		/*System.out.println("after ordering");
@@ -75,12 +75,14 @@ public class subProblemGA {
 			System.out.println(": "+ind2.fitness);*/
 			//int ag2=sc.nextInt();
     		C=pop.crossover(ind1, ind2,pi);
+    		
     		/*System.out.println("after crossover");
 			for(int j=0;j<C.size;j++) {
 				System.out.print(C.C[j]+" ");
 			}
 			System.out.println(": "+C.fitness);*/
     		C=pop.mutation1(ind1, ind2, C,pi);
+    		
     		/*System.out.println("after mutation");
 			for(int j=0;j<C.size;j++) {
 				System.out.print(C.C[j]+" ");
@@ -91,8 +93,11 @@ public class subProblemGA {
     		/*long startTime = System.currentTimeMillis();
     		long elapsedTime = 0L;*/
     		C=pop.coverFeasibilityOperator(C, n, m, Talpha, delta,pi);
+    		
     		C=pop.connectFeasibiltyOperator(C, n, m, graph, SPL, pi,edges,subEdges,link);
+    		
     		C=pop.redundancyRemovalOperator(C,edges,n,m,subEdges,delta,Talpha,pi,link);
+    		
     		/*elapsedTime = (new Date()).getTime() - startTime;
         	System.out.println("execution time pour construire une population: "+elapsedTime);
         	int ag2=sc.nextInt();*/
@@ -141,6 +146,7 @@ public class subProblemGA {
 		}
 		
 		int ag2=sc.nextInt();*/
+    	pop.calculeFitnessPopulation(pi);
 		chroms = new ArrayList<Individu>();
 		for(int i=0;i<pop.sizep;i++) {
 			if(pop.p.get(i).fitness<1) {

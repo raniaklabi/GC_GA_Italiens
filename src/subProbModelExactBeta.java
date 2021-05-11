@@ -51,6 +51,7 @@ public class subProbModelExactBeta {
 				{
 					z[i] = cplex.boolVar();
 				}
+			
 				IloLinearNumExpr objective=cplex.linearNumExpr();
 				for(int i = 0; i < n; i++)
 					objective.addTerm(pi[i], y[i]);
@@ -58,6 +59,10 @@ public class subProbModelExactBeta {
 					objective.addTerm(-fi[i], z[i]);
 				
 				cplex.addMinimize(objective);
+				/***************************dmin*************/
+				/*for(int j = 0; j <m; j++) {
+					cplex.addGe(w[j],cplex.prod(0.2, z[j]));
+				}
 				/***********************(Importconstraint)************************/
 
 				/*cplex.addEq(y[0],1);
@@ -143,21 +148,22 @@ public class subProbModelExactBeta {
 					Assignement5.clear();
 					/*******************************************************/
 					cplex.setParam(IloCplex.IntParam.TimeLimit, time_limit); 
+					//cplex.setParam(IloCplex.Param.MIP.Limits.Solutions, 1);
 					boolean solve=cplex.solve();
 					
 					if((solve==true ))
 						
 						{	double s=0;
 						for(int i=0;i<n;i++) {
-							if((int)cplex.getValue(y[i])==1) {
+							if(cplex.getValue(y[i])>=0.99) {
 							cover.add(i);
 							}
 						}
 						
 							for(int i=1;i<n;i++) {
 								//System.out.print((int)cplex.getValue(y[i])+"**** ");
-								if((int)cplex.getValue(y[i])==1) {
-									r=r+(pi[i]*(int)cplex.getValue(y[i]));
+								if(cplex.getValue(y[i])>=0.99) {
+									r=r+pi[i];
 									ArrayList<Integer> Ti= new ArrayList<Integer>();
 									for(int j=0;j<m;j++) {
 										if(delta[i][j]==1) {
@@ -167,6 +173,7 @@ public class subProbModelExactBeta {
 									coveredTarget=union2sets(coveredTarget, Ti);
 								}
 							}
+							
 							
 							/*for(int i=0;i<m;i++) {
 								if((int)cplex.getValue(z[i])==1) {
@@ -179,8 +186,8 @@ public class subProbModelExactBeta {
 								s=s+(beta*fi[coveredTarget.get(i)]);
 							}
 							//r=s-r;
-							//r=1-s-r;
-							r=1-s-cplex.getObjValue();
+							r=1-s-r;
+						//	r=1-s-cplex.getObjValue();
 							System.out.println("\nreduced cost= "+r);
 							//int ag2=sc.nextInt();
 						}

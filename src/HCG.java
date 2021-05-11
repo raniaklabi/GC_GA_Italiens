@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.annotation.Repeatable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -15,48 +16,46 @@ public class HCG {
 
 	public static void main(String[] args) throws IOException {
 		Scanner sc= new Scanner(System.in);
-		File fichier = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\result.txt");
+		File fichier = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\result.dat");
 		BufferedWriter pw = new BufferedWriter(new FileWriter(fichier,true)) ;
+		File fichier1 = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\ETHCG.dat");
+		BufferedWriter pw1 = new BufferedWriter(new FileWriter(fichier1,true)) ;
+		File fichier2 = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\averageAmountTimeTargetHCG.dat");
+		BufferedWriter pw2 = new BufferedWriter(new FileWriter(fichier2,true)) ;
+		File fichier3 = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\information.dat");
+		BufferedWriter pw3 = new BufferedWriter(new FileWriter(fichier3,true)) ;
 		double time_limit=3600000;
-		
+		DecimalFormat df = new DecimalFormat("0.00");
 		donnee  P1 = new donnee();
+		
     	/*P1.Read_Data_v1("Exp10_15_1_Neighbour.txt");
     	P1.Print_Data_NosInstance_Groupe1();*/
 		/*P1.Read_Data_neighbour("Exp20_15_1_Neighbour.txt");
 		P1.link();
 		P1.Print_Data_NosInstance();*/
-		P1.Read_Data_Francais(args[0]);
-		double TAalpha=Double.parseDouble(args[1]);
-		// System.out.println(TAalpha);
-		//
-		//P1.Read_Data_Francais("CMLP_01.dat");
+		/*P1.Read_Data_Francais(args[0]);
+		P1.alpha=P1.betha=Double.parseDouble(args[1]);*/
+		P1.Read_Data_Francais("CMLP_01.dat");
+		P1.alpha=P1.betha=1;
 		P1.link();
 		P1.Print_Data_Francais();
-		//int  ag2=sc.nextInt();
-    	//double pi[]= {0,0,0,0,0,0,0,0,0,0};
 		
-		
-    	//System.out.println("\nThe population contains: ");
-    	/*for(int i=0;i<coverSets.pop.sizep;i++) {
-    		System.out.println("Ind: "+(i+1));
-    		for(int jj=0;jj<coverSets.pop.p.get(i).size;jj++) 
-    		{
-    			if(coverSets.pop.p.get(i).C[jj]==1) {
-    				System.out.print(jj+" ");
-    			}
-    				
-    		}
-    		System.out.println(": "+coverSets.pop.p.get(i).fitness);
-    	}
-    	int ag2=sc.nextInt();*/
+		double averageAmountTimeTarget[] =new double[P1.M];
     	double averageTime=0;
 		double averageLifetime=0;
 		double averageCS=0;
 		double minLifetime=1000;
 		double maxLifetime=0;
-		for(int lll=0;lll<5;lll++) {
-		double r=1;
 		double bestLifetime;
+		
+		//pw.append("file"+args[0]+"Talpha"+P1.TAalpha+" ");
+		pw3.append("nbreItr  "+" nbreCoverSet  "+"iterTime");
+
+		for(int lll=0;lll<5;lll++) {
+			
+		//int ag2=sc.nextInt();
+		double r=1;
+		
 		double [][]SPL=new double[P1.N][P1.N];
 		long startTime = System.currentTimeMillis();
 		long elapsedTime = 0L;
@@ -64,16 +63,6 @@ public class HCG {
 		for(int i=0;i<P1.N;i++) {
 			initialPI[i]=0;
 		}
-		List<Edge> edgesUndirected= new ArrayList<>();
-    	
-    	for(int i=0;i<P1.N;i++) {
-    		for(int j=i+1;j<P1.N;j++) {
-    			if(P1.link[i][j]==1) {
-    				edgesUndirected.add(new Edge(i, j,initialPI));
-    			//	edges.add(new Edge(i, j,pi));
-    			}
-    		}
-    	}
     	List<Edge> edges= new ArrayList<>();
     	
     	for(int i=0;i<P1.N;i++) {
@@ -87,13 +76,32 @@ public class HCG {
 	
     	InitialCoverSetsHeuristic coverSets=new InitialCoverSetsHeuristic();
 		Graph graph=null;
-    	coverSets.calculeCoverSets(TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edges,P1.link);
+    	coverSets.calculeCoverSets(P1.TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,P1.link);
     	coverSets.pop.calculeFitnessPopulation(initialPI);
+    	
+    	/*System.out.println("The population contains: ");
+    	for(int i=0;i<coverSets.pop.sizep;i++) {
+    		System.out.println("Ind: "+(i+1));
+    		for(int jj=0;jj<coverSets.pop.p.get(i).size;jj++) 
+    		{
+    			if(coverSets.pop.p.get(i).C[jj]==1) {
+    				System.out.print(jj+" ");
+    			}
+    				
+    		}
+    		System.out.println("");
+    	}
+    	ag2=sc.nextInt();*/
     	bestLifetime=0;
-    	MasterProb mb;
-    	subProblemGA sph;
+    	MasterProb mb=null;
+    	subProblemGA sph=null;
     	 int occ=0;
+    	 int nbreItr=0;
+    		
 			 while((r>0)) {
+				 long startTimeItr = System.currentTimeMillis();
+		    		long elapsedTimeItr = 0L;
+				 nbreItr++;
 					elapsedTime = (new Date()).getTime() - startTime;
         			if(elapsedTime>=time_limit)
         			{
@@ -103,7 +111,8 @@ public class HCG {
 				 mb=new MasterProb();
 				 System.out.println("k="+coverSets.K);
 				 mb.master(P1.N, P1.M, coverSets.K, coverSets.a, coverSets.b, P1.T);
-				/* System.out.println( " **");
+				 
+				 /* System.out.println( " **");
 				 for(int k=0;k<mb.t.length;k++) {
 						
 						System.out.print(mb.t[k]+ " **");
@@ -145,7 +154,8 @@ public class HCG {
 					 }
 				 }*/
 				 sph=new subProblemGA();
-				 r=sph.chromosome(P1.N, P1.M, P1.delta,TAalpha,edges,mb.pi,SPL,graph,edgesUndirected,P1.link);
+				 r=sph.chromosome(P1.N, P1.M, P1.delta,P1.TAalpha,edges,mb.pi,SPL,graph,P1.link);
+				 
 				 for(int i=0;i<sph.chroms.size();i++) {
 					 coverSets.K=coverSets.K+1;
 					 List<Integer> 	cover = new ArrayList<Integer>();
@@ -171,13 +181,14 @@ public class HCG {
 		    				coverSets.a[cover.get(ii)][coverSets.K-1]=1;
 		    			for(int ii=0;ii<coveredTarget.size();ii++)
 		    				coverSets.b[coveredTarget.get(ii)][coverSets.K-1]=1;
-					
+		    			  
 				}
+					elapsedTimeItr = (new Date()).getTime() - startTimeItr;
+					pw3.append(nbreItr+"  "+sph.chroms.size()+"  "+elapsedTimeItr);
+					pw3.newLine();	
 				
 				 
-				 
-				 
-				/*coverSets.K=coverSets.K+1;
+				 /*coverSets.K=coverSets.K+1;
     			for(int i=0;i<sph.cover.size();i++)
     				coverSets.a[sph.cover.get(i)][coverSets.K-1]=1;
     			for(int i=0;i<sph.coveredTarget.size();i++)
@@ -212,6 +223,7 @@ public class HCG {
     				}*/
     			System.out.println(" lifetime="+mb.lifetime);	
     			if(bestLifetime-mb.lifetime==0) {
+    				//ag2=sc.nextInt();
         			occ++;	
         			}
         			else {
@@ -224,6 +236,7 @@ public class HCG {
         			
 				// ag2=sc.nextInt();	
     	}
+				
 			 elapsedTime = (new Date()).getTime() - startTime;
 			 averageTime=averageTime+elapsedTime;
 			 averageLifetime=averageLifetime+bestLifetime;
@@ -235,13 +248,39 @@ public class HCG {
 				 maxLifetime=bestLifetime;
 			 }
 			 //int ag2=sc.nextInt();
+			 //pw.append(df.format(bestLifetime)+" ;");
+			// pw1.append(df.format(bestLifetime)+"  ");
+			 System.out.println(coverSets.K);
+			 System.out.println(mb.t.length);
+				for(int i=0;i<P1.M;i++)	
+				{
+					double ss=0;
+					for (int k = 0; k <mb.t.length; k++)
+					{if(mb.t[k]>0)
+					{
+						ss=ss+(coverSets.b[i][k]*mb.t[k]);
+					}
+						
+					}
+					averageAmountTimeTarget[i]=averageAmountTimeTarget[i]+ss;
+				}
 		}
-		pw.append("file"+args[0]+"Talpha"+TAalpha+" L="+(averageLifetime/5)+"execution time: "+(averageTime/1000)/5+" seconde"+"number CS="+averageCS/5+"min: "+minLifetime+"max: "+maxLifetime);
+		/*pw1.newLine();
+		pw1.close();
+		pw.append(" AverageL="+df.format((averageLifetime/5))+"execution time: "+df.format((averageTime/1000)/5)+" seconde"+"number CS="+df.format(averageCS/5)+"min: "+df.format(minLifetime)+"max: "+df.format(maxLifetime));
 		pw.newLine();	
 		pw.close();
-
+		for (int i = 0; i <P1.M; i++)
+	    {
+		pw2.append(df.format(averageAmountTimeTarget[i]/5)+ " ");
+		
+	    }
+		pw2.append(df.format(averageLifetime/5));
+		pw2.newLine();	
+		pw2.close();*/
+		
     	System.out.println("End!!!!!!!! with best lifetime"+(averageLifetime/5)+"execution time: "+(averageTime/1000)/5+" seconde"+"number CS="+averageCS/5);
-    
+    	pw3.close();
 	}
 	public static List<Integer> union2sets(List<Integer> H1,List<Integer> H2)
 	{

@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.Vector;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,7 +19,7 @@ public class subProbMCSCBeta {
 	}
 	public double coverMCSC(int n,int m,int [][]delta,double Talpha,List<Edge>  edges,double []pi,int [][]link,double[]fi,double betha) {
 		Scanner sc= new Scanner(System.in);
-		
+		 List<Edge> subEdges = new ArrayList<>();
 		Graph graph = new Graph(edges,n,pi,link);
    	 	for(int i=0;i<edges.size();i++)
         {	
@@ -59,7 +61,7 @@ public class subProbMCSCBeta {
 		        }
 		   	 	
 		   	 graph.evaluateShortPath(pi,n );*/
-			int choosenSensor2=S.get(0);
+			int choosenSensor2=S.get(1);
 			int choosenSensor1=cover.get(0);
 			int s1=0;
 			int s2=0;
@@ -94,7 +96,7 @@ public class subProbMCSCBeta {
 							}
 						coverAdjacent=union2sets(coverAdjacent, t1);
 					}
-					for(int ii=0;ii<n;ii++) {
+					for(int ii=1;ii<n;ii++) {
 						if((S.contains(ii))&&(!listNeighbor.contains(ii))) {
 
 						List<Integer> t2=new ArrayList<Integer>();
@@ -105,11 +107,7 @@ public class subProbMCSCBeta {
 						}
 						List<Integer> diff=intersection2sets(coverAdjacent, t2);
 						if(diff.size()>=1) {
-							//List<Integer> l=new ArrayList<Integer>();
-							//if(S.contains(ii)) {
-							//l.add(ii);
-							//listNeighbor=union2sets(listNeighbor, l);
-							
+							//listNeighbor.add(ii);
 							}
 						listNeighbor.add(ii);
 						}
@@ -147,9 +145,9 @@ public class subProbMCSCBeta {
 				//System.out.println("SUpp Targets"+supTargets.size());
 				//result=Difference2sets(result, cover);
 				double v=0;
-				v=graph.SPL[s1][s2];
-				/*for(int k=0;k<result.size();k++)
-					v=v+pi[result.get(k)];*/
+				//v=graph.SPL[s1][s2];
+				for(int k=0;k<result.size();k++)
+					v=v+pi[result.get(k)];
 				/*****************************************************/
 				//result=union2sets(result, cover);
 				List<Integer> coveredTargetByChemin= new ArrayList<Integer>();
@@ -190,8 +188,9 @@ public class subProbMCSCBeta {
 				else {
 					f= v/supTargets.size();
 				}
-			//f= v/supTargets.size();
-			//f=Math.sqrt(Math.pow(v, 2)+Math.pow(1/supTargets.size(),2));
+				//f=v;*/
+			//f= v/f1;
+			//f=Math.sqrt(Math.pow(v, 2)+Math.pow(1/f1,2));
 
 			
 			// System.out.print("v= "+ v+"suuppTragets= "+supTargets.size()+"f="+f);
@@ -214,31 +213,68 @@ public class subProbMCSCBeta {
 			//graph.evaluateShortPath(pi,n );
 			 List<Integer> result =graph.path(choosenSensor1, choosenSensor2, graph);
 			//List<String> result = graph.shortestPath(Integer.toString(choosenSensor1), Integer.toString(choosenSensor2));
-			
+			 for(int i=0;i<result.size()-1;i++) {
+		    	 Edge e=new Edge(result.get(i), result.get(i+1), pi);
+		    	 if(equals(subEdges, e)==false) 
+		    	 {
+		    	 subEdges.add(new Edge(result.get(i), result.get(i+1), pi));
+		    	 }
+		     }
 			// System.out.println("***"+listOfInteger );
-			for(int k=0;k<result.size();k++)
-			{if(!cover.contains(result.get(k))) {
-				cover.add(result.get(k));
-			S.remove(new Integer(result.get(k)));
-			
-			 List<Integer> Ti= new ArrayList<Integer>();
-				for(int ii=0;ii<m;ii++)
-					if(delta[result.get(k)][ii]==1) {
-						Ti.add(ii);
+				for(int k=0;k<result.size();k++)
+				{if(!cover.contains(result.get(k))) {
+					cover.add(result.get(k));
+					
+				}
+				}
+				for(int k=0;k<result.size();k++) {
+					S.remove(new Integer(result.get(k)));
+				}
+				for(int k=0;k<cover.size();k++) {
+					if(cover.get(k)!=0) {
+					List<Integer> Ti= new ArrayList<Integer>();
+					for(int ii=0;ii<m;ii++)
+						if(delta[cover.get(k)][ii]==1) {
+							Ti.add(ii);
+						}
+					coveredTarget=union2sets(coveredTarget, Ti);
 					}
-				coveredTarget=union2sets(coveredTarget, Ti);
-			}
-			}
+				}
 			//System.out.println("talpha="+coveredTarget.size());
 			//System.out.println(cover);
 		
 		}
-		if(S.size()>0) {
+
+		if((S.size()>=0)&&(coveredTarget.size()>=Talpha)) {
 		//System.out.println("sors!!!!! with talpha="+coveredTarget.size());
 		//System.out.println(cover);
 		//ag2=sc.nextInt();
+			/*******************super flux*************************/
+			Individu  ind=new Individu(n);
+			for(int k=0;k<cover.size();k++)
+				ind.C[cover.get(k)]=1;
+			ind=redundancyRemovalOperator(ind,edges,n,m,subEdges,delta,Talpha,pi,link);
+			cover.clear();
+			for(int k=0;k<ind.C.length;k++)
+			{
+				if(ind.C[k]==1) {
+					cover.add(k);
+				}
+			}
+			coveredTarget.clear();
+				for(int k=0;k<cover.size();k++) {
+					if(cover.get(k)!=0) {
+					List<Integer> Ti= new ArrayList<Integer>();
+					for(int ii=0;ii<m;ii++)
+						if(delta[cover.get(k)][ii]==1) {
+							Ti.add(ii);
+						}
+					coveredTarget=union2sets(coveredTarget, Ti);
+					}
+				}
+			/************************************/
 		for(int k=0;k<cover.size();k++)
-		r=r+pi[cover.get(k)];
+			r=r+pi[cover.get(k)];
 		for(int k=0;k<coveredTarget.size();k++)
 			r=r-fi[coveredTarget.get(k)];
 		double s=0;
@@ -313,4 +349,210 @@ public class subProbMCSCBeta {
 		   }
 			return false;
 	    }
+   public Individu redundancyRemovalOperator(Individu ind,List<Edge> edges,int n,int m,List<Edge> subEdges,int [][]delta,double Talpha,double []pi,int[][]link) {
+		Individu minimalInd=ind;
+		boolean test=true;
+		
+		while(test==true)
+		{
+		
+		
+		Graph subgraph = new Graph(subEdges, n, pi,edges.size(),link);
+		for(int i=0;i<subEdges.size();i++)
+       {	
+       	subgraph.addEdge(Integer.toString(subEdges.get(i).src), Integer.toString(subEdges.get(i).dest), subEdges.get(i).weight);
+       }
+			
+		 List<pair> subEdge=new ArrayList<pair>();
+
+		  for(int i=0;i<subEdges.size();i++)
+	        {	
+			  subEdge.add(new pair(subEdges.get(i).src, subEdges.get(i).dest));
+			 
+	        }
+		int cnt = subEdge.size(); 
+		
+		Vector t = new Vector(); 
+			
+		int node = cnt + 1; 
+		for(int i = 0; i < 1005; i++) 
+		{ 
+			t.add(new Vector()); 
+		} 
+	
+		for (int i = 0; i < cnt; i++) 
+		{ 
+			((Vector)t.get(subEdge.get(i).first)).add(subEdge.get(i).second); 
+			((Vector)t.get(subEdge.get(i).second)).add(subEdge.get(i).first); 
+		} 
+		
+		/* Function call */
+		
+		GFG gfg=new GFG();
+		gfg.leaves=new int[gfg.nbreMaxLeaves];
+		gfg.i=0;
+		
+		//gfg.dfs(t, subEdge.get(0).first, 0);
+		//System.out.print("sors ");
+		gfg.dfs(t, 0, 0);
+		Random random = new Random();
+		//random.setSeed(0);
+		List<Integer> coveredTarget= new ArrayList<Integer>();
+   	for(int i=1;i<minimalInd.C.length;i++) {
+			if(minimalInd.C[i]==1) {
+				ArrayList<Integer> Ti= new ArrayList<Integer>();
+				for(int j=0;j<m;j++) {
+					if(delta[i][j]==1) {
+						Ti.add(j);
+					}
+				}
+				coveredTarget=union2sets(coveredTarget, Ti);
+				
+			}
+   	
+		}
+   	//System.out.print("Talpha  :"+coveredTarget);
+   	//ag2=sc.nextInt();
+   	
+     	if((gfg.i>0)) {
+  		 List<Integer> cover= new ArrayList<Integer>();
+	        // add edges to the graph
+	        for(int i=0;i<minimalInd.size;i++) {
+	        	if(minimalInd.C[i]==1) {
+	        		cover.add(i);
+	        	}
+	        }
+	        int essai=0;
+	        int s=-1;
+	        int []ess=new int [gfg.i];
+	        for(int hh=0;hh<gfg.i;hh++)
+	        {
+	        	ess[hh]=0;
+	        }
+	        while((essai<gfg.i)) {
+	        	//System.out.println("sors111  ");
+	        do {
+	        	  s = random.nextInt(gfg.i);
+			} while (ess[s]!=0);
+	       // System.out.println("sors111  "+s);
+			
+			coveredTarget.clear();
+			
+			for(int i=0;i<cover.size();i++) 
+			{
+				if((cover.get(i)!=gfg.leaves[s])&&(cover.get(i)!=0))
+				{
+					ArrayList<Integer> Ti= new ArrayList<Integer>();
+					for(int j=0;j<m;j++) 
+					{
+						if(delta[cover.get(i)][j]==1) 
+						{
+							Ti.add(j);
+						}
+					}
+					coveredTarget=union2sets(coveredTarget, Ti);
+				}
+			}
+			if (coveredTarget.size()<Talpha) {
+				ess[s]=-1;
+				essai++;	
+			}
+			else {
+				break;
+			}
+	        }
+	        
+	       
+			if(essai>=gfg.i) {
+				test=false;
+			}
+			else {
+
+			/*System.out.println("leaves:  ");
+			for(int i=0;i<gfg.i;i++)
+				if(gfg.leaves[i]!=0)
+				{System.out.print( gfg.leaves[i] + " "); }
+			System.out.println("\ns="+s+"choosen leave= "+gfg.leaves[s]);	
+			 for(int i=0;i<subEdges.size();i++) {
+				    System.out.println(subEdges.get(i).src+"->"+subEdges.get(i).dest);
+				     }*/
+			
+		//	System.out.println("talpha"+coveredTarget.size()+"k="+gfg.i);
+			//ag2=sc.nextInt();
+			//System.out.println("after remove edes");
+			 for(int i=0;i<subEdges.size();i++) {
+				 if((subEdges.get(i).dest==gfg.leaves[s])) {
+					 //System.out.println("yess");
+					 subEdges.remove(i);
+				 }
+				     }
+			 
+			/* for(int i=0;i<subEdges.size();i++) {
+				    System.out.println(subEdges.get(i).src+"->"+subEdges.get(i).dest);
+				     }*/
+			// int ag2=sc.nextInt();
+			if(coveredTarget.size()>=Talpha) {
+				
+				 minimalInd.C[gfg.leaves[s]]=0;
+				
+							
+			}
+			gfg.leaves=removeTheElement(gfg.leaves, s);
+			gfg.i=gfg.i-1;
+			}
+     	}
+			/*System.out.print("leaves:  ");
+			for(int i=0;i<gfg.i;i++)
+				if(gfg.leaves[i]!=0)
+				{System.out.print( gfg.leaves[i] + " "); }*/
+			//ag2=sc.nextInt();
+			/*for(int i=0;i<minimalInd.size;i++)
+				System.out.print(minimalInd.C[i]+" ");*/
+			 
+			 
+			/* System.out.print("Cover  :"+cover);
+			 for(int i=0;i<gfg.i;i++)
+					if(gfg.leaves[i]!=0)
+					{System.out.print( gfg.leaves[i] + " "); }*/
+			//ag2=sc.nextInt();
+		}
+	
+		//minimalInd.CalculeFitness(pi);
+		/* System.out.print("\ncover after constructRedundancy=");
+			for(int i=0;i<minimalInd.size;i++)
+				System.out.print(minimalInd.C[i]+" ");*/
+			//ag2=sc.nextInt();
+		return minimalInd;
+	}
+   public int[] removeTheElement(int[] arr, int index) 
+   { 
+
+   if (arr == null
+   || index < 0
+   || index >= arr.length) { 
+
+   return arr; 
+   } 
+
+   // Create another array of size one less 
+   int[] anotherArray = new int[arr.length - 1]; 
+
+   // Copy the elements except the index 
+   // from original array to the other array 
+   for (int i = 0, k = 0; i < arr.length; i++) { 
+
+   // if the index is 
+   // the removal element index 
+   if (i == index) { 
+   continue; 
+   } 
+
+   // if the index is not 
+   // the removal element index 
+   anotherArray[k++] = arr[i]; 
+   } 
+
+   // return the resultant array 
+   return anotherArray; 
+   } 
 }

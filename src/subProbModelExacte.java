@@ -29,7 +29,7 @@ public class subProbModelExacte {
 		        	System.out.print(delta[i][j] +" ");
 				System.out.println("");
 		    }*/
-			double time_limit=3600000;
+			double time_limit=900000;
 			IloCplex cplex=new IloCplex();
 			IloNumVar f[][]=new IloNumVar[n][n] ;
 			
@@ -139,7 +139,8 @@ public class subProbModelExacte {
 					cplex.addGe(Assignement5,tAlpha);
 					Assignement5.clear();
 					/*******************************************************/
-					cplex.setParam(IloCplex.IntParam.TimeLimit, time_limit); 
+					//cplex.setParam(IloCplex.IntParam.TimeLimit, time_limit);
+					cplex.setParam(IloCplex.Param.MIP.Limits.Solutions, 1);
 					boolean solve=cplex.solve();
 					
 					if((solve==true ))

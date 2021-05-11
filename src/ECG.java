@@ -38,21 +38,8 @@ public class ECG {
 		for(int i=0;i<P1.N;i++) {
 			initialPI[i]=0;
 		}
-		List<Edge> edgesUndirected= new ArrayList<>();
-    	
-    	for(int i=0;i<P1.N;i++) {
-    		for(int j=i+1;j<P1.N;j++) {
-    			if(P1.link[i][j]==1) {
-    				edgesUndirected.add(new Edge(i, j,initialPI));
-    			//	edges.add(new Edge(i, j,pi));
-    			}
-    		}
-    	}
-    	Graph graph1 = new Graph(edgesUndirected,P1.N,initialPI,P1.link);
-   	 for(int i=0;i<edgesUndirected.size();i++)
-        {	
-        	graph1.addEdge(Integer.toString(edgesUndirected.get(i).src), Integer.toString(edgesUndirected.get(i).dest), edgesUndirected.get(i).weight);
-        }
+		
+  
    	 
    	//graph1.printGraph(graph1, P1.N);
   //  int ag2=sc.nextInt();
@@ -76,10 +63,10 @@ public class ECG {
                 ,new Edge(6, 4,  pi),new Edge(6, 5,  pi),new Edge(7, 5,  pi),
                 new Edge(7, 6,  pi),new Edge(8, 6,  pi),new Edge(8, 7,  pi),new Edge(9, 7,  pi),new Edge(9, 8,  pi));*/
     	double [][]SPL=new double[P1.N][P1.N];
-    	
+    	GFG gfg=new GFG();
     	InitialCoverSetsHeuristic coverSets=new InitialCoverSetsHeuristic();
     	Graph graph=null;
-    	coverSets.calculeCoverSets(TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edgesUndirected,P1.link);
+    	coverSets.calculeCoverSets(TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,P1.link);
     	coverSets.pop.calculeFitnessPopulation(initialPI);
     	// int ag2=sc.nextInt();
     	/*System.out.println("The population contains: ");
@@ -117,7 +104,7 @@ public class ECG {
 				 mb=new MasterProb();
 				 mb.master(P1.N, P1.M, coverSets.K, coverSets.a, coverSets.b, P1.T);
 				 sph=new subProblemGA();
-				 r=sph.chromosome(P1.N, P1.M, P1.delta,TAalpha,edges,mb.pi,SPL,graph,edgesUndirected,P1.link);
+				 r=sph.chromosome(P1.N, P1.M, P1.delta,TAalpha,edges,mb.pi,SPL,graph,P1.link);
 				 if(r>0) {
 				//System.out.println("\nheuristic");
 			 // ag2=sc.nextInt();

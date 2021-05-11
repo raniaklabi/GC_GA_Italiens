@@ -14,7 +14,7 @@ public class MasterProb {
 	double pi[];
 	double lifetime;
 	double t[];
-	public void master(int N,int M,int K, int [][]a,int [][]b,double []E)
+	public void master(int N,int M,int K, int [][]a,int [][]b,float []E)
 	{
 		
 		Scanner sc= new Scanner(System.in);
@@ -53,9 +53,29 @@ public class MasterProb {
 				Assignement.clear();
 				
 		}
+		//cplex1.setParam(IloCplex.Param.Simplex.Display,2);
+		//cplex1.setParam(IloCplex.Param.Conflict.Display,2);
+		//cplex1.setParam(IloCplex.Param.Network.Display,2);
+		//cplex1.setParam(IloCplex.Param.Tune.Display,2);
+		//cplex1.setParam(IloCplex.IntParam.RootAlg, IloCplex.Algorithm.Auto);
+		//cplex1.setParam(IloCplex.IntParam.RootAlg, IloCplex.Algorithm.Dual); 
+		//cplex1.setParam (IloCplex.IntParam.BarCrossAlg, IloCplex.Algorithm.Primal);
+		//cplex1.setParam (IloCplex.IntParam.RootAlg, IloCplex.Algorithm.Dual);
+		//cplex1.setParam(IloCplex.IntParam.RootAlg, IloCplex.Algorithm.Primal); 
+		//cplex1.setParam(IloCplex.IntParam.RootAlg, IloCplex.Algorithm.Dual);
+		//cplex1.setParam(IloCplex.IntParam.RootAlg, IloCplex.Algorithm.Auto);
+		//cplex1.setParam(IloCplex.IntParam.RootAlg, IloCplex.Algorithm.Primal);
+		//cplex1.setParam (IloCplex.IntParam.RootAlg, IloCplex.Algorithm.Network);
+		//cplex1.setParam(IloCplex.IntParam.RootAlg, IloCplex.Algorithm.Barrier);
+		//cplex1.setParam(IloCplex.IntParam.BarCrossAlg, IloCplex.Algorithm.Dual) ;
+		//cplex1.setParam(IloCplex.IntParam. RootAlg, IloCplex.Algorithm.Dual);
+		//cplex1. setParam (IloCplex.IntParam. NodeAlg, IloCplex.Algorithm.Auto);
+		//cplex1. setParam (IloCplex.IntParam.RandomSeed, IloCplex.Algorithm.Dual);
+		//cplex1.setParam(IloCplex.IntParam. RootAlg, IloCplex.Algorithm.Concurrent);
+		
 		boolean solve=cplex1.solve();
 		if(solve==true )
-		{	
+		{	//cplex1.exportModel("lpex1.Lp");
 		lifetime=0;
 		//System.out.println("activation time of each cover set");
 		for(int k=0;k<K;k++) {
@@ -65,22 +85,39 @@ public class MasterProb {
 		//int ag2=sc.nextInt();	
 		for(int k=0;k<K;k++)
 			lifetime=lifetime+(float)cplex1.getValue(d[k]);
-		//System.out.println("LIFETIME="+lifetime);
+		System.out.println("LIFETIME="+lifetime);
 		for(int i=0; i<constraintsSensors.size();i++)
 		{
-		if(Math.floor(cplex1.getDual(constraintsSensors.get(i))* 100) / 100>=0)	
+		if(cplex1.getDual(constraintsSensors.get(i)) / 100>=0)	
 		{
-		 pi[i+1]=Math.floor(cplex1.getDual(constraintsSensors.get(i))* 100) / 100;
+		 pi[i+1]=cplex1.getDual(constraintsSensors.get(i));
 		}
 		else 
 		{
-			pi[i+1]=1;
+			pi[i+1]=0;
 		}	
 		}
 		
-	/*	for(int i=0; i<pi.length;i++)
+		/*for(int i=0; i<pi.length;i++)
 			System.out.println("pi["+(i) +"]="+pi[i]);
-		int ag2=sc.nextInt();	*/
+		int ag2=sc.nextInt();*/
+		//System.out.println("****a****");	
+		/*System.out.println("");
+		for (int i = 0; i <N; i++)
+		{	double s=0;
+	
+			for (int k = 0; k <K; k++)
+			{
+					System.out.print(a[i][k]+" ");	
+					
+					s=s+cplex1.getValue(d[k])*a[i][k];
+					
+				
+			}
+			System.out.println(": "+s+", "+(E[i]-s)+", "+pi[i]);
+			
+		}
+		int ag2=sc.nextInt();*/
 		/*for(int i=0; i<N;i++)
 			System.out.println("E["+(i) +"]="+E[i]);*/
 		/*for(int i=0; i<pi.length;i++)

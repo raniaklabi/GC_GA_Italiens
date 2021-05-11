@@ -71,7 +71,8 @@ public class EMCSC {
 		long elapsedTime = 0L;
     	InitialCoverSetsHeuristic coverSets=new InitialCoverSetsHeuristic();
     	Graph graph=null;
-    	coverSets.calculeCoverSets(P1.TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edgesUndirected,P1.link);
+    	GFG gfg=new GFG();
+    	coverSets.calculeCoverSets(P1.TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,P1.link);
     	coverSets.pop.calculeFitnessPopulation(initialPI);
     	// int ag2=sc.nextInt();
     	System.out.println("The population contains: ");

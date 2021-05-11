@@ -190,67 +190,7 @@ public double[][]  evaluateShortPath(double []pi,int n){
       
       
     }
-    public Graph(List<Edge> edges,int n,double []pi,int [][] link,int [][]delta,int m,double []fi)
-    {	cost=new double[n][n];
-   
-    	for(int ii=0;ii<n;ii++)
-    		{for(int j=0;j<n;j++)
-    			{if(ii==j) {
-    				cost[ii][j]=0;
-    			}
-    			else if (link[ii][j]==1) {
-    				cost[ii][j]=pi[j];
-    				List<Integer> coveredTarget= new ArrayList<Integer>();
-    		    	
-    				for(int jj=0;jj<m;jj++) {
-    					if(delta[ii][j]==1) {
-    						coveredTarget.add(jj);
-    					}
-    				
-    				
-    			}
-    				for(int i=0;i<coveredTarget.size();i++) {
-    					cost[ii][j]=cost[ii][j]-fi[coveredTarget.get(i)];	
-    	        	}	
-    			}
-    		
-    			else {
-    				cost[ii][j]=I;
-    			}
-    			}
-    		}
-    	
-    			
-        // adjacency list memory allocation
-    	//for (int i = 0; i < edges.size(); i++)
-        for (int i = 0; i < edges.size(); i++)
-            adj_list.add(i, new ArrayList<>());
- 
-        // add edges to the graph
-        for (Edge e : edges)
-        {	//e.weight=pi[e.dest]+pi[e.src];
-        	List<Integer> coveredTarget= new ArrayList<Integer>();
-    	
-    				for(int j=0;j<m;j++) {
-    					if(delta[e.dest][j]==1) {
-    						coveredTarget.add(j);
-    					}
-    				
-    				
-    			}
-        	e.weight=pi[e.dest];
-        	for(int i=0;i<coveredTarget.size();i++) {
-        		e.weight=e.weight-fi[coveredTarget.get(i)];	
-        	}
-            // allocate new node in adjacency List from src to dest
-            adj_list.get(e.src).add(new Node(e.dest,Integer.toString(e.dest), e.weight));
-            //adj_list.get(e.dest).add(new Node(e.src,Integer.toString(e.src), e.weight));
-            cost[e.src][e.dest]=e.weight;
-           // cost[e.dest][e.src]=e.weight;
-        }
-      
-      
-    }
+    
     public Graph(List<Edge> edges,int n,double []pi,int size,int [][] link)
     {	cost=new double[n][n];
     	for(int ii=0;ii<n;ii++)
@@ -331,7 +271,7 @@ public double[][]  evaluateShortPath(double []pi,int n){
 			  }
 
 		  public Graph() {}
- /*   public static void main (String[] args){
+  /* public static void main (String[] args){
         // define edges of the graph 
     	double pi[]= {0,0,0,0,0,0};
        List<Edge> edges = Arrays.asList(new Edge(0, 1, pi),new Edge(0, 2, pi),
@@ -342,7 +282,7 @@ public double[][]  evaluateShortPath(double []pi,int n){
         int link [][]=new int[n][n];
         
         // call graph class Constructor to construct a graph
-        Graph graph = new Graph(edges,n,pi);
+       /* Graph graph = new Graph(edges,n,pi);
        
      
         // print the graph as an adjacency list
@@ -363,7 +303,7 @@ public double[][]  evaluateShortPath(double []pi,int n){
         for(int i=0;i<edges.size();i++)
         {	System.out.println(Integer.toString(edges.get(i).src) + " "+Integer.toString(edges.get(i).dest)+" "+edges.get(i).weight);
         	graph.addEdge(Integer.toString(edges.get(i).src), Integer.toString(edges.get(i).dest), edges.get(i).weight);
-        }
+        }*/
       /*  graph.addEdge("0", "1", 5);
         graph.addEdge("0", "2", 1);
         graph.addEdge("1", "2", 2);

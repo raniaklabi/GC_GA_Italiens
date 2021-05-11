@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.annotation.Repeatable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -23,15 +24,20 @@ public class MCSCBetaExacte {
 		/*P1.Read_Data_neighbour("Exp20_15_5_Neighbour.txt");
 		P1.link();
 		P1.Print_Data_NosInstance();*/
-		/*File fichier = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\resultMCSCExateBeta.txt");
-		BufferedWriter pw = new BufferedWriter(new FileWriter(fichier,true)) ;*/
+		File fichier = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\resultMCSCExateBeta.dat");
+		BufferedWriter pw = new BufferedWriter(new FileWriter(fichier,true)) ;
+		File fichier2 = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\averageAmountTimeTargetMCSCExacteBeta.dat");
+		BufferedWriter pw2 = new BufferedWriter(new FileWriter(fichier2,true)) ;
+		DecimalFormat df = new DecimalFormat("0.00");
 		/*P1.Read_Data_Francais(args[0]);
 		double TAalpha=Double.parseDouble(args[1]);*/
-		//P1.Read_Data_Francais("CMLP_01.dat");
+		/*P1.Read_Data_Francais("CMLP_04.dat");
+		P1.alpha=P1.betha=0.7;*/
 		P1.Read_Data_Francais(args[0]);
 		P1.alpha=P1.betha=Double.parseDouble(args[1]);
 		P1.link();
 		P1.Print_Data_Francais();
+		double averageAmountTimeTarget[] =new double[P1.M];
 		Scanner sc= new Scanner(System.in);
 		long startTime = System.currentTimeMillis();
 		long elapsedTime = 0L;
@@ -51,49 +57,14 @@ public class MCSCBetaExacte {
     		}
     	}
     	bestLifetime=0;
-    	MasterProbBeta mb;
+    	MasterProbBeta mb=null;
     	subProbMCSCBeta sph;
-    	
+    
     	coverSets.calculeCoverSets(P1.TAalpha,P1.betha, P1.N, P1.M,P1.delta,P1.link,P1.T,P1.max_energie());
-
-    	//coverSets.calculeCoverSets(P1.TAalpha, P1.N, P1.M, graph, SPL, initialPI, P1.delta, edges,edgesUndirected,P1.link);
-    	//coverSets.pop.calculeFitnessPopulation(initialPI);
-    	// int ag2=sc.nextInt();
-    	/*System.out.println("\nThe population contains: ");
-    	for(int i=0;i<coverSets.K;i++) {
-    		System.out.println("Ind: "+(i+1));
-    		for(int jj=0;jj<P1.N;jj++) 
-    		{
-    			if(coverSets.a[jj][i]==1) {
-    				System.out.print(jj+" ");
-    			}
-    				
-    		}
-    		System.out.println();
-    	}
-    	for(int i=0;i<P1.M;i++) {
-
-    		for(int jj=0;jj<coverSets.K;jj++) 
-    		{
-    			
-    				System.out.print(coverSets.b[i][jj]+" ");
-    			
-    				
-    		}
-    		System.out.println();
-    	}*/
-    	//int ag2=sc.nextInt();
-    	
-    	/*coverSets.K=coverSets.K+1;
-    	coverSets.a[2][coverSets.K-1]=1;
-    	coverSets.a[0][coverSets.K-1]=1;
-    	for(int i=0;i<P1.M;i++)
-    		{ 
-			coverSets.b[i][coverSets.K-1]=1;}*/
     	int nbExacte=0;
-    	
+    	int nb=0;
     	 int occ=0;
-    	 mb=new MasterProbBeta();
+    	
 			 while((r>0)) {
 				
 					elapsedTime = (new Date()).getTime() - startTime;
@@ -101,11 +72,39 @@ public class MCSCBetaExacte {
         			{
         			break;
         			}
-				
+        		mb=new MasterProbBeta();
 				 mb.master(P1.N, P1.M, coverSets.K, coverSets.a, coverSets.b, P1.T,P1.betha);
 				 sph=new subProbMCSCBeta();
 	    			r=sph.coverMCSC(P1.N, P1.M, P1.delta,P1.TAalpha, edges,mb.pi,P1.link,mb.fi,P1.betha);
-				 if((r>0)&&(occ<20)) {
+	    			/*****************exist cover set *********************/
+	    			
+	    			boolean test=true;
+	    			int t[]=new int [P1.N];
+	    			for(int i=0;i<sph.cover.size();i++) {
+	    				t[sph.cover.get(i)]=1;
+	    			}
+	    			
+	    				for(int j=0;j<coverSets.K;j++) {
+	    					for(int i=0;i<P1.N;i++) {	
+	    						
+	    						if(t[i]!=coverSets.a[i][j]) {
+	    							test=false;
+	    							break;
+	    						}
+	    				}
+	    					if((test==false)&&(j<coverSets.K-1)) {
+	    						test=true;
+	    					}
+	    					else {
+	    						break;
+	    					}
+	    			}
+	    			
+	    				
+	    			/**************************************/
+	    				
+	    			if((r>0)&&(occ<10)) {
+	    				if(test==false) {
 				System.out.println("\nheuristic");
 				System.out.println("\n"+occ);
 			 //int ag2=sc.nextInt();
@@ -114,33 +113,7 @@ public class MCSCBetaExacte {
     				coverSets.a[sph.cover.get(i)][coverSets.K-1]=1;
     			for(int i=0;i<sph.coveredTarget.size();i++)
     				coverSets.b[sph.coveredTarget.get(i)][coverSets.K-1]=1;
-					/* for(int i=0;i<sph.chroms.size();i++) {
-    					 coverSets.K=coverSets.K+1;
-    					 List<Integer> 	cover = new ArrayList<Integer>();
-    				    	for(int ii=0;ii<sph.chroms.get(i).size;ii++) {
-    				    		if (sph.chroms.get(i).C[ii]==1) {
-    				    			cover.add(ii);
-    				    		}
-    				    	}
-    						
-    				    	List<Integer>coveredTarget = new ArrayList<Integer>();
-    				    	for(int ii=1;ii<cover.size();ii++) {
-    				    		//System.out.println("*****gene: "+cover.get(i));
-    								ArrayList<Integer> Ti= new ArrayList<Integer>();
-    								for(int j=0;j<P1.M;j++) {
-    									if(P1.delta[cover.get(ii)][j]==1) {
-    										Ti.add(j);
-    									}
-    								}
-    								coveredTarget=union2sets(coveredTarget, Ti);
-    								
-    						}
-    				    	for(int ii=0;ii<cover.size();ii++)
-    		    				coverSets.a[cover.get(ii)][coverSets.K-1]=1;
-    		    			for(int ii=0;ii<coveredTarget.size();ii++)
-    		    				coverSets.b[coveredTarget.get(ii)][coverSets.K-1]=1;
-    					
-    				}*/
+	    				}
 					 
 					 if(bestLifetime-(float)mb.lifetime==0) {
         			occ++;	
@@ -148,45 +121,84 @@ public class MCSCBetaExacte {
         			else {
         			bestLifetime=(float)mb.lifetime;
         			occ=0;}
-        			/*if(occ>50){
+        			/*if(occ>10){
         				break;
         			}*/
     			//bestLifetime=mb.lifetime;
     			
     			
-				 }
+				 
+			 }
 				 else{
-					 nbExacte++;
 						elapsedTime = (new Date()).getTime() - startTime;
 	        			if(elapsedTime>=time_limit)
 	        			{
 	        			break;
 	        			}
-					 //System.out.println("\nexacte");
-					//ag2=sc.nextInt();
+	        			nb++;
+					 System.out.println("\nexacte");
+					// System.out.println("rep= "+ nbExacte);
+					//int ag2=sc.nextInt();
+					double copyr=r;
 	        			subProbModelExactBeta spme= new subProbModelExactBeta();
 	        			r=spme.subProbExacteBeta(mb.pi,mb.fi, P1.N, P1.M, P1.link, P1.delta, P1.TAalpha,P1.betha);
+	        			/*****************exist cover set *********************/
+		    			
+		    			 test=true;
+		    			 t=new int [P1.N];
+		    			for(int i=0;i<spme.cover.size();i++) {
+		    				t[spme.cover.get(i)]=1;
+		    			}
+		    			
+		    				for(int j=0;j<coverSets.K;j++) {
+		    					for(int i=0;i<P1.N;i++) {	
+		    						
+		    						if(t[i]!=coverSets.a[i][j]) {
+		    							test=false;
+		    							break;
+		    						}
+		    				}
+		    					if((test==false)&&(j<coverSets.K-1)) {
+		    						test=true;
+		    					}
+		    					else {
+		    						break;
+		    					}
+		    			}
+		    			
+		    				
+		    			/**************************************/
+
 	        			if((r>0))  {
+	        				elapsedTime = (new Date()).getTime() - startTime;
+		        			if(elapsedTime>=time_limit)
+		        			{
+		        			break;
+		        			}
+		        			if(test==false) {
 	        				coverSets.K=coverSets.K+1;
 	        				for(int i=0;i<spme.cover.size();i++)
 	            				coverSets.a[spme.cover.get(i)][coverSets.K-1]=1;
 	            			for(int i=0;i<spme.coveredTarget.size();i++)
 	            				coverSets.b[spme.coveredTarget.get(i)][coverSets.K-1]=1;
-	       				 mb.master(P1.N, P1.M, coverSets.K, coverSets.a, coverSets.b, P1.T,P1.betha);
+	            			mb.master(P1.N, P1.M, coverSets.K, coverSets.a, coverSets.b, P1.T,P1.betha);
+
+		        			}
 	       				/* System.out.println("**, "+mb.lifetime);
 	       				System.out.println("**, "+bestLifetime);
         				 ag2=sc.nextInt();*/
 	            		
-	            			
+	       				occ=0;
 	            		
-	        				 if(mb.lifetime-bestLifetime>0.0001) {
-	        					 occ=0;
+	        				 if((mb.lifetime-bestLifetime>0.0001) &&(copyr!=r)){
+	        					 //System.out.println("** okkkkkkkk");
+	        					
 	        					 bestLifetime=mb.lifetime;
 		                			}
 		                			else {
-		                			occ++;
+		                		nbExacte++;
 		                			}
-		                			if(occ>=50) {
+		                			if(nbExacte>=20) {
 		                				break;
 		                			}
 	        				/* System.out.println("**, "+occ);
@@ -202,7 +214,7 @@ public class MCSCBetaExacte {
 	        			}
 	        		}
     			
-				// System.out.println("reduced cost= "+ r);
+				 System.out.println("reduced cost= "+ r);
  		    	System.out.println("Optimum with lifetime="+bestLifetime);
 
  		   	elapsedTime = (new Date()).getTime() - startTime;
@@ -210,25 +222,38 @@ public class MCSCBetaExacte {
 			{
 			break;
 			}
-    		
+			
 			 }
+				for(int i=0;i<P1.M;i++)	
+				{
+					double ss=0;
+					for (int k = 0; k <mb.t.length; k++)
+					{if(mb.t[k]>0)
+					{
+						ss=ss+(coverSets.b[i][k]*mb.t[k]);
+					}
+						
+					}
+					averageAmountTimeTarget[i]=averageAmountTimeTarget[i]+ss;
+				}
+			 System.out.println("reduced cost= "+ r);
+			 System.out.println("rep= "+ nbExacte);
+			//int ag2=sc.nextInt();
 				elapsedTime = (new Date()).getTime() - startTime;
 				
-				 try {
-					 File file = new File("C:\\Users\\rania\\Desktop\\Thèse\\Projects\\GC_GA_Italiens\\resultMCSCBetaExacte.dat");
-					 if (!file.exists()) {
-					        file.createNewFile();
-					    }
-					    FileWriter fw = new FileWriter(file, true);
-					    BufferedWriter pw = new BufferedWriter(fw);
-				pw.write("file"+args[0]+"Talpha"+P1.TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K+"nbreExacteAppel: "+nbExacte);
+				pw.append("file"+args[0]+"Talpha"+P1.TAalpha+" L="+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K+"appelExacte"+nb);
 				pw.newLine();	
 				pw.close();
-					 }
-			    catch (IOException e) { e.printStackTrace(); }
-				     	System.out.println("End!!!!!!!! with best lifetime"+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K);
-				     	System.out.println(P1.betha);
-				     	int ag2=sc.nextInt();
+				for (int i = 0; i <P1.M; i++)
+			    {
+				pw2.append(df.format(averageAmountTimeTarget[i])+ " ");
+				
+			    }
+				pw2.append(df.format(bestLifetime));
+				pw2.newLine();	
+				pw2.close();
+				System.out.println("End!!!!!!!! with best lifetime"+bestLifetime+"execution time: "+elapsedTime/1000+" seconde"+"number CS="+coverSets.K+"nbreExacteAppel: "+nb);
+				    	
 	}
 	
 	public static List<Integer> union2sets(List<Integer> H1,List<Integer> H2)

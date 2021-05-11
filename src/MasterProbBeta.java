@@ -1,13 +1,18 @@
 import java.util.List;
+import java.awt.DisplayMode;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.rmi.server.LogStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.LongStream;
 
 import ilog.concert.IloException;
 import ilog.concert.IloLinearNumExpr;
 import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex;
+import ilog.cplex.IloCplex.CplexStatus;
+import ilog.cplex.IloCplex.Param.Preprocessing;
 import ilog.concert.IloRange;
 
 public class MasterProbBeta {
@@ -15,7 +20,7 @@ public class MasterProbBeta {
 	double fi[];
 	double lifetime;
 	double t[];
-	public void master(int N,int M,int K, int [][]a,int [][]b,double []E,double betha)
+	public void master(int N,int M,int K, int [][]a,int [][]b,float []E,double betha)
 	{
 		
 		Scanner sc= new Scanner(System.in);
@@ -30,7 +35,7 @@ public class MasterProbBeta {
 		//variable t1....tk
 		for ( int i = 0; i < K; i++)
 		{
-			d[i] = cplex1.numVar(0, Double.POSITIVE_INFINITY);
+			d[i] = cplex1.numVar(0,Double.MAX_VALUE);
 		}
 		//expression   
 		 //t1+....+tk
@@ -41,22 +46,22 @@ public class MasterProbBeta {
 		cplex1.addMaximize(objective1);
 		List<IloRange>constraintsSensors = new ArrayList<IloRange>();
 		List<IloRange>constraintsTargets = new ArrayList<IloRange>();
-		//define constrains  60x+60y>=300
-		
+		//define constrains 
+	
 		/***********************(1)************************/
 		for(int i = 1; i <N ; i++)
 		{
 			IloLinearNumExpr Assignement =cplex1.linearNumExpr();
+			//Assignement.addTerm(1.0, ss[i]);
 			for(int k = 0; k <K; k++)
 			{
 				Assignement.addTerm(a[i][k],d[k]);
 			}	
-				constraintsSensors.add(cplex1.addLe(Assignement,E[i]));
-			
-				Assignement.clear();
+		constraintsSensors.add(cplex1.addLe(Assignement,E[i]));
+		Assignement.clear();
 				
 		}
-		/***********************(9:Contrainte Beta)************************/
+		/***********************(2:Contrainte Beta)************************/
 		for(int j = 0; j <M ; j++)
 		 
 		{	
@@ -70,7 +75,7 @@ public class MasterProbBeta {
 				}	
 				constraintsTargets.add(cplex1.addLe(Assignement,0));
 
-				Assignement.clear();
+				//Assignement.clear();
 		}
 		/***********************(9:Contrainte Beta)************************/
 		
@@ -100,31 +105,66 @@ public class MasterProbBeta {
 			Assignement.clear();
 		}
 		/******************************************************************/
+		//cplex1.setDefaults();
+		// cplex1.setParam(IloCplex.Param.MIP.Limits.Solutions,1);
+		//cplex1.setParam(IloCplex.Param.MIP.Limits.Solutions.SolutionType, 1);
+		 //cplex1.setParam(IloCplex.Param.MIP.Limits.Solutions.SolutionType,1);
+		//cplex1.setParam(IloCplex.IntParam.DataCheck.ParamDisplay,1);
+		//cplex1.setParam(IloCplex.Param.Simplex.Display,2);
+		//cplex1.setParam(IloCplex.Param.MIP.Interval,2);
+		//cplex1.setParam(IloCplex.Param.MIP.Interval,2);
+		//cplex1.setParam(IloCplex.Param.Simplex.Perturbation.Constant,1);
+		//cplex1.setParam(IloCplex.Param.MIP.Limits.Populate,1);
+		//cplex1.setParam(IloCplex.Param.Preprocessing.Dual,1);
+		//cplex1.setParam(IloCplex.Param.RandomSeed,50);
+		//cplex1.setParam(IloCplex.Param.Preprocessing.Reduce,2);
+		//cplex1.setParam(IloCplex.Param.Preprocessing.QCPDuals,2);
+		//cplex1.setParam(IloCplex.Param.Simplex.DGradient,5);
+		//cplex1.setParam(IloCplex.Param.RootAlgorithm,6);
+		//cplex1.setParam(IloCplex.Param.RootAlgorithm,5);
+		
+		// cplex1.setParam(Preprocessing.Presolve, false);
+		//cplex1.setParam(IloCplex.Param.Conflict.Algorithm,6);
+		
+		
+		//cplex1.setOut(null);
+		
 		boolean solve=cplex1.solve();
 		if(solve==true )
-		{	
+		{	//cplex1.exportModel("lpex1.Lp");
+			//System.out.println("Obj = " + cplex1.getObjValue());
 		lifetime=0;
 		//System.out.println("activation time of each cover set");
 		for(int k=0;k<K;k++) {
-			t[k]=(float)cplex1.getValue(d[k]);
-			//System.out.print(cplex1.getValue(d[k])+ " **");
+			t[k]=cplex1.getValue(d[k]);
+			//System.out.print(t[k]+ " **");
 			}
-		//int ag2=sc.nextInt();	
+		
+		/*System.out.println("**: "+cplex1.getCplexStatus());
+		System.out.println("dual feasible: "+cplex1.isDualFeasible() );
+		System.out.println("primal feasible: "+cplex1.isPrimalFeasible());
+
+		int ag2=sc.nextInt();*/	
 		for(int k=0;k<K;k++)
-			lifetime=lifetime+(float)cplex1.getValue(d[k]);
-		//System.out.println("LIFETIME="+lifetime);
-		for(int i=0; i<constraintsSensors.size();i++)
+			lifetime=lifetime+cplex1.getValue(d[k]);
+
+
+		int i;
+		for(i=0; i<constraintsSensors.size();i++)
+		{ //pi[i+1]=cplex1.getDual(constraintsSensors.get(i));
+			
+			if(cplex1.getDual(constraintsSensors.get(i))>=0)
 		{
-		if(Math.floor(cplex1.getDual(constraintsSensors.get(i))* 100) / 100>=0)	
-		{
-		 pi[i+1]=Math.floor(cplex1.getDual(constraintsSensors.get(i))* 100) / 100;
+		 pi[i+1]=cplex1.getDual(constraintsSensors.get(i));
 		}
 		else 
 		{
 			pi[i+1]=1;
-		}	
 		}
-		for(int i=0; i<constraintsTargets.size();i++)
+		}
+		
+	
+		for( i=0; i<constraintsTargets.size();i++)
 		{//fi[i]=cplex1.getDual(constraintsTargets.get(i));
 		if(Math.floor(cplex1.getDual(constraintsTargets.get(i))* 100) / 100>=0)	
 		{
@@ -136,12 +176,12 @@ public class MasterProbBeta {
 		}	
 		}
 		
-		/*for(int i=0; i<pi.length;i++)
+		/*for(i=0; i<pi.length;i++)
 			System.out.println("pi["+(i) +"]="+pi[i]);
 		
-		for(int i=0; i<fi.length;i++)
+		for(i=0; i<fi.length;i++)
 			System.out.println("fi["+(i) +"]="+fi[i]);
-		 int ag2=sc.nextInt();	*/
+		  ag2=sc.nextInt();	*/
 		/*for(int i=0; i<N;i++)
 			System.out.println("E["+(i) +"]="+E[i]);*/
 		/*for(int i=0; i<pi.length;i++)
@@ -158,18 +198,23 @@ public class MasterProbBeta {
 		}
 		}*/
 		/*System.out.println("****a****");	
-		for (int i = 0; i <N; i++)
-		{	
+		System.out.println("");
+		for (i = 0; i <N; i++)
+		{	float s=0;
+	
 			for (int k = 0; k <K; k++)
 			{
 					System.out.print(a[i][k]+" ");	
+					
+					s=(float) (s+cplex1.getValue(d[k])*a[i][k]);
+					
 				
 			}
-			System.out.println("");	
-		}
-		for(int k=0;k<K;k++) {
-			System.out.print(cplex1.getValue(d[k])+ " **");
-			}*/
+			System.out.println(": "+s+", "+(1-s)+", "+pi[i]);
+			
+		}*/
+		//int ag2=sc.nextInt();
+		
 		/*System.out.println("\n****b****");	
 		for (int i = 0; i <M; i++)
 		{	double s=0;
@@ -185,13 +230,16 @@ public class MasterProbBeta {
 			System.out.println(": "+s+","+val+","+(betha*lifetime));	
 		}*/
 		//int ag2=sc.nextInt();	
+		
 	}
 		
 		else {
 			System.out.println("Not solved!!!!!!!!!!!!!!!!!!!!! ");
 		}
-		cplex1.clearModel();
+		constraintsSensors.clear();
+		constraintsTargets.clear();
 		cplex1.end();
+	
 	}		
 	catch(IloException exc)
 	{

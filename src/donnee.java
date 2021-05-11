@@ -34,24 +34,23 @@ public class donnee {
 	double Xbs,Ybs;
 	double energieAccumule[] =new double[NT];
 	double P[] =new double[NC];
-	double[] T = new double[NC]; // duree de vie de chaque capteur separee par un espace
+	float[] T = new float[NC]; // duree de vie de chaque capteur separee par un espace
 	int delta[][] = new int[NC][NT];
 	int connectDirectly[] =new int[NC];
 	int nbreCS;
 	public void Print_Data_NosInstance()
 	{
-		System.out.println("Nombre de capteurs N = " + N);
-		System.out.println("Nombre de cibles M = " + M);
-		System.out.print("Durée de vie de chaque capteur: ");
+		System.out.println("\nNombre de capteurs N = " + N);
+		System.out.println("\nNombre de cibles M = " + M);
+		System.out.print("\nDurée de vie de chaque capteur: ");
 		for(int i =0; i < N; i++)
 		{
 			System.out.print("E"+(i+1)+"="+T[i] + " ");
 	    }
-					
 		System.out.println("");
 		System.out.println("Les cibles couverts par chaque capteur : ");
 		
-		System.out.println("Voisin : ");
+		/*System.out.println("Voisin : ");
 		for(int i=0;i<N;i++)
 		{
 			for(int j=0;j<N;j++)
@@ -62,7 +61,7 @@ public class donnee {
 		System.out.println("The sensors that connect directly with SB");
 		for(int i=0;i<N;i++)
 			System.out.print(connectDirectly[i] +" ");
-		System.out.println("");
+		System.out.println("");*/
 		System.out.println("Coordinaates of sensors : ");
 		for(int i=0;i<N;i++)
 		{
@@ -77,6 +76,7 @@ public class donnee {
 		        	System.out.print(delta[i][j] +" |");
 				System.out.println("");
 		    }
+		 int age=sc.nextInt();
 		  System.out.println("Link");
 		for(int i=0;i<N;i++) {
 			for(int j=0;j<N;j++) {
@@ -86,7 +86,76 @@ public class donnee {
 		
 		}
 		//int age=sc.nextInt();
-		
+		 TAalpha=Math.ceil(alpha*M);
+	}
+	public void Read_Data(String fichier)
+	{
+	    // Role:
+	    //cette fonction permet de lire toutes  les donnees necessaires pour la simulation a partir d'un fichier S
+	   String []survTarget=new String[NT];
+	   int i,j,k,L;
+	   
+	   String line; /* or other suitable maximum line size */
+	   String S;
+	   
+	   try {
+		  
+
+		    InputStream ips=new FileInputStream(fichier); 
+			InputStreamReader ipsr=new InputStreamReader(ips);
+			BufferedReader br=new BufferedReader(ipsr);
+			String ligne;
+			ligne = br.readLine();
+			ligne = br.readLine();
+	        N = Integer.parseInt(ligne);
+	  	   	ligne = br.readLine();
+	  	   	ligne = br.readLine();
+      
+	  	   	M = Integer.parseInt(ligne);
+	  	   	ligne = br.readLine();
+	  	   	ligne = br.readLine();
+  
+	  	   	nbreDeTypeDeSur= Integer.parseInt(ligne);
+	
+	  	   	ligne = br.readLine();
+	  	   	ligne = br.readLine();
+	  	   	String[] parts;
+	  	  	for( L = 0; L < N; L++)
+	  	   	{
+	  	   		ligne = br.readLine();
+	  	   		parts= ligne.split(" ");
+	  	   		R[L]= Double.parseDouble(parts[0]);
+	  	   		T[L]= new Float( Float.parseFloat(parts[1]));
+	  	   	
+	  	   	// System.out.println("***********"+T[L]);
+	  	   	
+				 for(i = 6; i< parts.length;i++)
+				 { Distance[L][i-6] = Double.parseDouble(parts[i]);
+				 System.out.print(Distance[L][i-6]+ "|");
+				 }
+				 System.out.println("");
+			
+	      }
+	  	  System.out.print("rayon");
+	  	  for( L = 0; L < N; L++)
+	  	  {System.out.print(R[L] + "| ");
+	  	  }
+			//System.out.print(T[i] + " ");
+		      ligne = br.readLine();
+		  	  ligne = br.readLine();
+		  	 parts = ligne.split(" ");
+		  	for( i =0; i < M; i++)
+			{
+		  		 survTarget[i] = parts[i];
+				System.out.print(survTarget[i] + " ");
+			
+			} 
+	      br.close();
+	   }
+	   catch (Exception e){
+			System.out.println(e.toString());
+		}	
+
 	}
 	public void link() {
 		for(int i=0;i<N;i++) {
@@ -151,6 +220,7 @@ public class donnee {
 		        	System.out.print(delta[i][j] +" |");
 				System.out.println("");
 		    }
+		
 		  System.out.println("Link");
 		for(int i=0;i<N;i++) {
 			for(int j=0;j<N;j++) {
@@ -164,6 +234,8 @@ public class donnee {
 	public void Read_Data_Francais(String fichier1) 
 	{
 	   try {
+		   Random random = new Random();
+			random.setSeed(0);
 		    InputStream ips=new FileInputStream(fichier1); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
 			BufferedReader br=new BufferedReader(ipsr);
@@ -187,7 +259,10 @@ public class donnee {
 			  		parts = ligne.split(" ");
 			  		cordSensors[i][0] = Double.parseDouble(parts[0]);
 			  		cordSensors[i][1] = Double.parseDouble(parts[1]);
-			  		T[i]=Double.parseDouble(parts[2]);
+			  		T[i]=Float.parseFloat(parts[2]);
+			  		//T[i]=1;
+			  		/*Random rn = new Random();
+			  		T[i]= rn.nextInt(12) + 3;*/
 			  		
 				}
 				for( int i =0; i < M; i++)
@@ -208,6 +283,80 @@ public class donnee {
 				}
 	  	   	br.close();
 	  	   	Calculer_delta();
+	   }
+	   catch (Exception e){
+			System.out.println(e.toString());
+		}	
+
+	}
+	public void Read_Data_v1(String fichier)
+	{
+	    // Role:
+	    //cette fonction permet de lire toutes  les donnees necessaires pour la simulation a partir d'un fichier S
+	   String []survTarget=new String[NT];
+	   int i,j,k,L;
+	   
+	   String line; /* or other suitable maximum line size */
+	   String S;
+	   
+	   try {
+		  
+
+		    InputStream ips=new FileInputStream(fichier); 
+			InputStreamReader ipsr=new InputStreamReader(ips);
+			BufferedReader br=new BufferedReader(ipsr);
+			String ligne;
+			ligne = br.readLine();
+			ligne = br.readLine();
+	        N = Integer.parseInt(ligne);
+	  	   	ligne = br.readLine();
+	  	   	ligne = br.readLine();
+      
+	  	   	M = Integer.parseInt(ligne);
+	  	   	ligne = br.readLine();
+	  	   	ligne = br.readLine();
+  
+	  	   	nbreDeTypeDeSur= Integer.parseInt(ligne);
+	
+	  	   	ligne = br.readLine();
+	  	   	ligne = br.readLine();
+	  	   	String[] parts;
+	  	  	for( L = 0; L < N; L++)
+	  	   	{
+	  	   		ligne = br.readLine();
+	  	   		parts= ligne.split(" ");
+	  	   		R[L]= Double.parseDouble(parts[0]);
+	  	   		T[L]= new Float( Double.parseDouble(parts[1]));
+	  	   		cordSensors[L][0] = Double.parseDouble(parts[3]);
+	  	   		cordSensors[L][1] = Double.parseDouble(parts[4]);
+	  		
+	  	   	
+	  	   	// System.out.println("***********"+T[L]);
+	  	   	
+				 for(i = 6; i< parts.length;i++)
+				 { Distance[L][i-6] = Double.parseDouble(parts[i]);
+				// System.out.print(Distance[L][i-6]+ "|");
+				 }
+				// System.out.println("");
+			
+	      }
+	  	  System.out.print("rayon");
+	  	  for( L = 0; L < N; L++)
+	  	  {System.out.print(R[L] + "| ");
+	  	  }
+			//System.out.print(T[i] + " ");
+		      ligne = br.readLine();
+		  	  ligne = br.readLine();
+		  	 parts = ligne.split(" ");
+		  	for( i =0; i < M; i++)
+			{
+		  		 survTarget[i] = parts[i];
+				System.out.print(survTarget[i] + " ");
+			
+			} 
+	      br.close();
+	      Rc=Rs=R[0];
+	      Calculer_delta();
 	   }
 	   catch (Exception e){
 			System.out.println(e.toString());
@@ -246,7 +395,7 @@ public class donnee {
 	  	   		ligne = br.readLine();
 	  	   		parts= ligne.split(" ");
 	  	   		R[L]= Double.parseDouble(parts[0]);
-	  	   		T[L]= Double.parseDouble(parts[1]);
+	  	   		T[L]= Float.parseFloat(parts[1]);
 	  	   	
 	  	   	// System.out.println("***********"+T[L]);
 	  	   	
@@ -322,98 +471,7 @@ public class donnee {
 		}	
 
 	}
-		public void Read_Data_v1(String fichier)
-		{
-		    // Role:
-		    //cette fonction permet de lire toutes  les donnees necessaires pour la simulation a partir d'un fichier S
-		   String []survTarget=new String[NT];
-		   int i,j,k,L;
-		   
-		   String line; /* or other suitable maximum line size */
-		   String S;
-		   
-		   try {
-			  
 
-			    InputStream ips=new FileInputStream(fichier); 
-				InputStreamReader ipsr=new InputStreamReader(ips);
-				BufferedReader br=new BufferedReader(ipsr);
-				String ligne;
-				ligne = br.readLine();
-				ligne = br.readLine();
-		        N = Integer.parseInt(ligne);
-		  	   	ligne = br.readLine();
-		  	   	ligne = br.readLine();
-	      
-		  	   	M = Integer.parseInt(ligne);
-		  	   	ligne = br.readLine();
-		  	   	ligne = br.readLine();
-	  
-		  	   	nbreDeTypeDeSur= Integer.parseInt(ligne);
-		
-		  	   	ligne = br.readLine();
-		  	   	ligne = br.readLine();
-		  	   	String[] parts;
-		  	  	for( L = 0; L < N; L++)
-		  	   	{
-		  	   		ligne = br.readLine();
-		  	   		parts= ligne.split(" ");
-		  	   		R[L]= Double.parseDouble(parts[0]);
-		  	   		T[L]= new Float( Double.parseDouble(parts[1]));
-		  	   	
-		  	   	// System.out.println("***********"+T[L]);
-		  	   	
-					 for(i = 6; i< parts.length;i++)
-					 { Distance[L][i-6] = Double.parseDouble(parts[i]);
-					 //System.out.print(Distance[L][i-6]+ "|");
-					 }
-					// System.out.println("");
-				
-		      }
-		  	 // System.out.print("rayon");
-		  	 /* for( L = 0; L < N; L++)
-		  	  {System.out.print(R[L] + "| ");
-		  	  }*/
-				//System.out.print(T[i] + " ");
-			      ligne = br.readLine();
-			  	  ligne = br.readLine();
-			  	 parts = ligne.split(" ");
-			  	for( i =0; i < M; i++)
-				{
-			  		 survTarget[i] = parts[i];
-					//System.out.print(survTarget[i] + " ");
-				
-				} 
-			  	ligne = br.readLine();
-				
-		  	  	for( i = 0; i < N; i++)
-		  	   	{
-		  	   		ligne = br.readLine();
-		  	   		parts= ligne.split(" ");
-					 for(j = 0; j< parts.length;j++)
-					 { Voisin[i][j] = Integer.parseInt(parts[j]);
-					// System.out.print(Voisin[i][j]+ "|");
-					 }
-					// System.out.println("");
-				
-		      }
-		  	  	ligne = br.readLine();
-			  	  ligne = br.readLine();
-			  	  parts = ligne.split(" ");
-				  	for( i =0; i < N; i++)
-					{
-				  		connectDirectly[i] = Integer.parseInt(parts[i]);
-						//System.out.print(connectDirectly[i] + " ");
-					
-					} 
-		      br.close();
-		      Calculer_delta();
-		   }
-		   catch (Exception e){
-				System.out.println(e.toString());
-			}	
-
-		}
 		
 	public void Calculer_delta()
 	{

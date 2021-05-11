@@ -34,7 +34,7 @@ public class InitialCoverSet {
 	return union;
 
 	}
-	public void calculeCoverSets(double Talpha,double betha,int n,int m,int [][]delta,int[][]link,double []E,double max_E) {
+	public void calculeCoverSets(double Talpha,double betha,int n,int m,int [][]delta,int[][]link,float []E,double max_E) {
 	
 		try
 		{	double dmin=0.2;
